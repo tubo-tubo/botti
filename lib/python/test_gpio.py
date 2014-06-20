@@ -2,7 +2,7 @@
 import RPi.GPIO as io
 import time
 
-io.setmode(io.RMC)
+io.setmode(io.BMC)
 io.setup(18,io.OUT)
 
 io.output(18,io.HIGH)
