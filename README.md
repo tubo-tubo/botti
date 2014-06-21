@@ -5,3 +5,6 @@ botti
 
 6/20
 GitHubデビュー
+
+6/21
+test_newnet.rb
