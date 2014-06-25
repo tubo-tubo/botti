@@ -1,12 +1,12 @@
 
-import RPi.GPIO as io
+import RPi.GPIO as IO
 import time
 
-io.setmode(io.BCM)
-io.setup(18,io.OUT)
+IO.setmode(IO.BCM)
+IO.setup(18,IO.OUT)
 
-io.output(18,io.HIGH)
+IO.output(18,IO.HIGH)
 time.sleep(1)
-io.output(18,io.LOW)
+IO.output(18,IO.LOW)
 time.sleep(1)
 
