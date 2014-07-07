@@ -15,7 +15,7 @@ import math
 class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
     def __init__(self, leftmotor=[17, 18], rightmotor=[22, 27]):
-        super(). __init__()
+        super().__init__()
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
         self.setmode(GPIO.BCM)
