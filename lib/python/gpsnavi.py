@@ -1,4 +1,5 @@
 import serial
+import math
 import pynmea2
 from pyproj import Geod
 
@@ -51,6 +52,12 @@ class gpsparser(object):
 
     def goaldistance(self):
         return self.goaldist
+
+    def goalhorizontaldistance(self):
+        return math.cos(self.goalazimath())*self.goaldistance()
+
+    def goalverticaldistance(self):
+        return math.sin(self.goalazimath())*self.goaldistance()
 
     def goalazimath(self):
         return float(self.goalaz)
