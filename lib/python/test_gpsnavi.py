@@ -19,7 +19,9 @@ class Testgpsnavi(unittest.TestCase):
         self.assertEqual(self.gps.timestamp(), datetime.time(8, 51, 20))
         self.assertEqual(self.gps.sat_receivejudge(), True)
         self.assertEqual(self.gps.altitude(), 6.9)
-        print(self.gps.goaldistance())
+        self.gps.goalcalc()
+        self.assertEqual(self.gps.goaldistance(),9906.151420843888)
+        self.assertEqual(self.gps.goalazimath(), 102.62608474251853)
         #print(self.gps.goalazimath())
 
 unittest.main()

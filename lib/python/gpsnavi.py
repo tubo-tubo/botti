@@ -44,11 +44,13 @@ class gpsparser(object):
     def altitude(self):
         return float(self.gpsdata.altitude)
 
-    def goaldistance(self):
+    def goalcalc(self):
         nowpos = [self.longitude(), self.latitude()]
         g = Geod(ellps='WGS84')
-        fa, ba, d = g.inv(self.goal[0], self.goal[1], nowpos[0], nowpos[1])
-        return d
+        self.goalaz, self.goalbackaz, self.goaldist = g.inv(self.goal[0], self.goal[1], nowpos[0], nowpos[1])
+
+    def goaldistance(self):
+        return self.goaldist
 
     def goalazimath(self):
-        pass
+        return float(self.goalaz)
