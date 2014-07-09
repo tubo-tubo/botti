@@ -5,9 +5,6 @@ from pyproj import Geod
 
 class gpsparser(object):
 
-    ser = None
-    gpsdata = None
-
     def __init__(self, portname=None, goal=[138.75665666666666, 35.68582166666667]):
         self.goal = goal
         if portname is not None:
