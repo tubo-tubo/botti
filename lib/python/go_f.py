@@ -85,16 +85,21 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         g = Geod(ellps='WGS84')
         self.goalaz, self.goalbackaz, self.goaldist = g.inv(self.goal[0], self.goal[1], nowpos[0], nowpos[1])    #彼我の方位を求めた
 
+        def goaldistance(self):
+            return self.goaldist
 
-        while goalaz > 10 and goalaz < 350 and goaldist > 30:
+        def goalszimace(self):
+            return float(self.goalaz)
+
+        while goalazimace > 10 and goalazimace < 350 and goaldistance > 30:
             
-            if 0 < goalaz <= 90:
+            if 0 < goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < goalaz <= 180:
+            elif 90 < goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < goalaz <= 270:
+            elif 180 < goalazimace <= 270:
                 self.left(150)
             
             else:
