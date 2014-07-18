@@ -77,7 +77,7 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         self.goalaz, self.goalbackaz, self.goaldist = g.inv(self.goal[0], self.goal[1], nowpos[0], nowpos[1])    #彼我の方位を求めた
 
 
-        while goalaz > 10 and goalaz < 350 and goaldist < 30:
+        while goalaz > 10 and goalaz < 350 and goaldist > 30:
             
             if 0 < goalaz <= 90:
                 self.right(30)
