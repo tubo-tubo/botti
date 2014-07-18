@@ -25,6 +25,15 @@ class getdistance():
     def nowpos(self, value):
         self._nowpos = value
 
+     @property
+    def checkpoint(self):
+        return self._nowpos
+   
+    @checkpoint.setter
+    def checkpoint(self, value):
+        self._checkpoint = value
+
+
     def Alysis(self, data):          #GPS値取得
         return pynmea2.parse(data)
 
