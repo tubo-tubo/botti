@@ -1,10 +1,11 @@
 #!coding:utf-8
 
-import time
-import RPI.GPIO
+import serial
 import math
 import pynmea2
 from pyproj import Geod
+import gpsnavi
+
 
 class getdistance():
     def __init__(self):
@@ -32,15 +33,12 @@ class getdistance():
     @checkpoint.setter
     def checkpoint(self, value):
         self._checkpoint = value
-
-
-    def Alysis(self, data):          #GPS値取得
-        return pynmea2.parse(data)
+  
 
 
 class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
-    def __init__(self, leftmotor=[17, 18], rightmotor=[22, 27]):
+    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
         super().__init__()
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
@@ -80,26 +78,24 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         self.output(self.rightmotor[0], True)
         self.output(self.rightmotor[1], False)
 
-    
-    def turn(self):
-        g = Geod(ellps='WGS84')
-        self.goalaz, self.goalbackaz, self.goaldist = g.inv(self.goal[0], self.goal[1], nowpos[0], nowpos[1])    #彼我の方位を求めた
+    def goaldistance(self):
+        return self.goaldist
 
-        def goaldistance(self):
-            return self.goaldist
+    def goalszimace(self):
+        return float(self.goalaz)
 
-        def goalszimace(self):
-            return float(self.goalaz)
 
-        while goalazimace > 10 and goalazimace < 350 and goaldistance > 30:
-            
-            if 0 < goalazimace <= 90:
+
+    def turn(self):       
+         while True:
+
+            if 0 < self.goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < goalazimace <= 180:
+            elif 90 < self.goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < goalazimace <= 270:
+            elif 180 < self.goalazimace <= 270:
                 self.left(150)
             
             else:
@@ -111,7 +107,8 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-
+            if goalazimace > 10 and goalazimace < 350 and goaldistance > 30:
+                break
 
 
 
