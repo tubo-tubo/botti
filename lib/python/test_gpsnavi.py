@@ -3,7 +3,6 @@ import unittest
 import datetime
 import mox3
 
-
 class Testgpsnavi(unittest.TestCase):
     lon = 139.649867
     lat = 35.705385
