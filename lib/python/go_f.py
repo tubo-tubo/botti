@@ -79,10 +79,10 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         self.output(self.rightmotor[1], False)
 
     def goaldistance(self):
-        return self.goaldist
+        return self.gpsnavi.gpsparser.goaldist
 
     def goalszimace(self):
-        return float(self.goalaz)
+        return float(self.gpsnavi.gpsparser.goalaz)
 
 
 
