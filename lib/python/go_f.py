@@ -7,9 +7,11 @@ from pyproj import Geod
 import gpsnavi
 
 
-class getdistance():
+class getdistance:
+
     def __init__(self):
-    
+        pass
+
     @property
     def goal(self):
         return self._goal
@@ -26,7 +28,7 @@ class getdistance():
     def nowpos(self, value):
         self._nowpos = value
 
-     @property
+    @property
     def checkpoint(self):
         return self._nowpos
    
