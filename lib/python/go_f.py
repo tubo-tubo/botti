@@ -1,10 +1,9 @@
 #!coding:utf-8
 
-import serial
-import math
-import pynmea2
-from pyproj import Geod
-import gpsnavi
+#import serial
+#import math
+#import pynmea2
+#from pyproj import Geod
 
 
 class getdistance:
