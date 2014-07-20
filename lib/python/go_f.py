@@ -5,6 +5,7 @@ import math
 import pynmea2
 from pyproj import Geod
 import gpsnavi
+import RPI
 
 
 class getdistance:
