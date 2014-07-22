@@ -19,28 +19,28 @@ class getdistance:
     @goal.setter
     def goal(self, value):
         self._goal = value
-
-    @property
-    def nowpos(self):
-        return self._nowpos
    
-    @nowpos.setter
-    def nowpos(self, value):
-        self._nowpos = value
-
     @property
-    def checkpoint(self):
+    def checkpoint1(self):
         return self._nowpos
    
     @checkpoint.setter
-    def checkpoint(self, value):
-        self._checkpoint = value
+    def checkpoint1(self, value):
+        self._checkpoint1 = value
+
+     @property
+    def checkpoint2(self):
+        return self._nowpos
+   
+    @checkpoint.setter
+    def checkpoint2(self, value):
+        self._checkpoint2 = value
   
 
 
 class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
-    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
+    def __init__(self, leftmotor=[17, 18], rightmotor=[22, 27]):
         super().__init__()
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
@@ -88,16 +88,16 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
 
 
-    def turn(self):       
-         while True:
+    def go_check1(self):       
+        while True:
 
-            if 0 < self.goalazimace <= 90:
+            if 0 < self.gpsnavi.gpsparser_c1.goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < self.goalazimace <= 180:
+            elif 90 < self.gpsnavi.gpsparser_c1.goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < self.goalazimace <= 270:
+            elif 180 < self.gpsnavi.gpsparser_c1.goalazimace <= 270:
                 self.left(150)
             
             else:
@@ -109,7 +109,58 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-            if goalazimace > 10 and goalazimace < 350 and goaldistance > 30:
+            if gpsnavi.gpsparser_c1.goalazimace > 10 and gpsnavi.gpsparser_c1.goalazimace < 350 and gpsnavi.gpsparser_c1.goaldistance > 30:
+                break
+
+
+    def go_check2(self):       
+        while True:
+
+            if 0 < self.gpsnavi.gpsparser_c2.goalazimace <= 90:
+                self.right(30)
+            
+            elif 90 < self.gpsnavi.gpsparser_c2.goalazimace <= 180:
+                 self.right(150)
+            
+            elif 180 < self.gpsnavi.gpsparser_c2.goalazimace <= 270:
+                self.left(150)
+            
+            else:
+                self.left(30)
+
+            self.time.sleep(0.01)
+
+            self.forward(50)
+
+            self.time.sleep(0.01)
+            
+            if gpsnavi.gpsparser_c2.goalazimace > 10 and gpsnavi.gpsparser_c2.goalazimace < 350 and gpsnavi.gpsparser_c2.goaldistance > 30:
+                break
+
+
+
+    def go_goal(self):       
+        while True:
+
+            if 0 < self.gpsnavi.gpsparser.goalazimace <= 90:
+                self.right(30)
+            
+            elif 90 < self.gpsnavi.gpsparser.goalazimace <= 180:
+                 self.right(150)
+            
+            elif 180 < self.gpsnavi.gpsparser.goalazimace <= 270:
+                self.left(150)
+            
+            else:
+                self.left(30)
+
+            self.time.sleep(0.01)
+
+            self.forward(50)
+
+            self.time.sleep(0.01)
+            
+            if gpsnavi.gpsparser.goalazimace > 10 and gpsnavi.gpsparser.goalazimace < 350 and gpsnavi.gpsparser.goaldistance > 30:
                 break
 
 
