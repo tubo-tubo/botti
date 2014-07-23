@@ -48,7 +48,10 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         self.setup(self.leftmotor[0], GPIO.OUT)
         self.setup(self.leftmotor[1], GPIO.OUT)
         self.setup(self.rightmotor[0], GPIO.OUT)
-        self.setup(self.rightmotor[1], GPIO.OUT)
+        self.setup(self.rightmotor[1], GPIO.OUT)      
+        gg = gpsnavi.gpsparser
+        gc1 = gpsnavi.gpsparser_c1
+        gc2 = gpsnavi.gpsparser_c2
 
     def forward(self):  # 前進
         self.output(self.leftmotor[0], False)
@@ -81,23 +84,23 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
         self.output(self.rightmotor[1], False)
 
     def goaldistance(self):
-        return self.gpsnavi.gpsparser.goaldist
+        return self.gg.goaldist
 
     def goalszimace(self):
-        return float(self.gpsnavi.gpsparser.goalaz)
+        return float(self.gg.goalaz)
 
 
 
     def go_check1(self):       
         while True:
 
-            if 0 < self.gpsnavi.gpsparser_c1.goalazimace <= 90:
+            if 0 < self.gc1.goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < self.gpsnavi.gpsparser_c1.goalazimace <= 180:
+            elif 90 < self.gc1.goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < self.gpsnavi.gpsparser_c1.goalazimace <= 270:
+            elif 180 < self.gc1.goalazimace <= 270:
                 self.left(150)
             
             else:
@@ -109,20 +112,20 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-            if gpsnavi.gpsparser_c1.goalazimace > 10 and gpsnavi.gpsparser_c1.goalazimace < 350 and gpsnavi.gpsparser_c1.goaldistance > 30:
+            if gc1.goalazimace > 10 and gc1.goalazimace < 350 and gc1.goaldistance > 30:
                 break
 
 
     def go_check2(self):       
         while True:
 
-            if 0 < self.gpsnavi.gpsparser_c2.goalazimace <= 90:
+            if 0 < self.gc2.goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < self.gpsnavi.gpsparser_c2.goalazimace <= 180:
+            elif 90 < self.gc2.goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < self.gpsnavi.gpsparser_c2.goalazimace <= 270:
+            elif 180 < self.gc2.goalazimace <= 270:
                 self.left(150)
             
             else:
@@ -134,7 +137,7 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-            if gpsnavi.gpsparser_c2.goalazimace > 10 and gpsnavi.gpsparser_c2.goalazimace < 350 and gpsnavi.gpsparser_c2.goaldistance > 30:
+            if gc2.goalazimace > 10 and gc2.goalazimace < 350 and gc2.goaldistance > 30:
                 break
 
 
@@ -142,13 +145,13 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
     def go_goal(self):       
         while True:
 
-            if 0 < self.gpsnavi.gpsparser.goalazimace <= 90:
+            if 0 < self.gg.goalazimace <= 90:
                 self.right(30)
             
-            elif 90 < self.gpsnavi.gpsparser.goalazimace <= 180:
+            elif 90 < self.gg.goalazimace <= 180:
                  self.right(150)
             
-            elif 180 < self.gpsnavi.gpsparser.goalazimace <= 270:
+            elif 180 < self.gg.goalazimace <= 270:
                 self.left(150)
             
             else:
@@ -160,7 +163,7 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-            if gpsnavi.gpsparser.goalazimace > 10 and gpsnavi.gpsparser.goalazimace < 350 and gpsnavi.gpsparser.goaldistance > 30:
+            if gg.goalazimace > 10 and gg.goalazimace < 350 and gg.goaldistance > 30:
                 break
 
 
