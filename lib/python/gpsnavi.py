@@ -1,7 +1,6 @@
 #!coding:utf-8
 
 
-
 class gpsparser(object):
     import serial
     import math
@@ -64,7 +63,9 @@ class gpsparser(object):
     def goalazimath(self):
         return float(self.goalaz)
 
+
 class gpsparser(object):
+    import serial
     import math
     import pynmea2
     from pyproj import Geod
@@ -72,7 +73,7 @@ class gpsparser(object):
     def __init__(self, portname=None, goal=[138.75665666666666, 35.68582166666667]):
         self.goal = goal
         if portname is not None:
-            self.ser = serial.Serial(port=portname)
+            self.ser = self.serial.Serial(port=portname)
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
