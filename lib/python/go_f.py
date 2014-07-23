@@ -1,9 +1,7 @@
 #!coding:utf-8
 #import serial
 #import math
-#import pynmea2
-#from pyproj import Geod
-
+import gpsnavi
 
 class getdistance:
 
@@ -18,14 +16,7 @@ class getdistance:
     def goal(self, value):
         self._goal = value
 
-    @property
-    def checkpoint1(self):
-        return self._nowpos
-
-    @checkpoint1.setter
-    def checkpoint1(self):
-        return self._nowpos
-
+    
     @property
     def nowpos(self):
         return self._nowpos
@@ -33,18 +24,6 @@ class getdistance:
     @nowpos.setter
     def nowpos(self, value):
         self._nowpos = value
-
-    @property
-    def checkpoint2(self):
-        return self._nowpos
-
-    @property
-    def checkpoint(self, value):
-        self._checkpoint = value
-
-    @checkpoint.setter
-    def checkpoint(self, value):
-        self._checkpoint = value
 
 
 class GPIO:  # GPIOをTurtleに
@@ -91,56 +70,32 @@ class GPIO:  # GPIOをTurtleに
         self.IO.output(self.rightmotor[1], False)
 
     def goaldistance(self):
-        return self.gg.goaldist
+        return self.gpsnavi.goaldist
 
     def goalszimace(self):
-        return float(self.gg.goalaz)
+        return float(self.gpsnavi.goalaz)
 
-    def go_check1(self):
-        while True:
-            if 0 < self.gc1.goalazimace <= 90:
-                self.right(30)
-            elif 90 < self.gc1.goalazimace <= 180:
-                self.right(150)
-            elif 180 < self.gc1.goalazimace <= 270:
-                self.left(150)
-            else:
-                self.left(30)
-            self.time.sleep(0.01)
-            self.forward(50)
-            self.time.sleep(0.01)
-            if self.gc1.goalazimace > 10 and self.gc1.goalazimace < 350 and self.gc1.goaldistance > 30:
-                break
-
-    def go_check2(self):
-        while True:
-            if 0 < self.gc2.goalazimace <= 90:
-                self.right(30)
-            elif 90 < self.gc2.goalazimace <= 180:
-                self.right(150)
-            elif 180 < self.gc2.goalazimace <= 270:
-                self.left(150)
-            else:
-                self.left(30)
-            self.time.sleep(0.01)
-            self.forward(50)
-            self.time.sleep(0.01)
-            if self.gc2.goalazimace > 10 and self.gc2.goalazimace < 350 and self.gc2.goaldistance > 30:
-                break
 
     def turn(self):
-        while True:
+        self.getdistance.goal = []
+        self.getdistance.goal.sppend([x,y])              #x,y are variables
+        self.getdistance.goal.sppend([xx,yy])
+        self.getdistance.goal.sppend([xxx,yyy])
+        
+        while len(getdistance.goal.) >= 1:          #If "len" is 0,roba is stop.
+            self.goal = getdistance.goal.pop([0])
 
-            if 0 < self.gg.goalazimace <= 90:
-                self.right(30)
-            elif 90 < self.goalazimace <= 180:
-                self.right(150)
-            elif 180 < self.goalazimace <= 270:
-                self.left(150)
-            else:
-                self.left(30)
-            self.time.sleep(0.01)
-            self.forward(50)
-            self.time.sleep(0.01)
-            if self.goalazimace > 10 and self.goalazimace < 350 and self.goaldistance > 30:
-                break
+            while self.goaldistance() > 30:
+
+                if 0 < self.goalazimace <= 90:
+                    self.right(30)
+                elif 90 < self.goalazimace <= 180:
+                    self.right(150)
+                elif 180 < self.goalazimace <= 270:
+                    self.left(150)
+                else:
+                    self.left(30)
+                self.time.sleep(0.01)
+                self.forward(50)
+                self.time.sleep(0.01)
+                
