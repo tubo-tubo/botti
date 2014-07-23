@@ -1,10 +1,9 @@
 #!coding:utf-8
 
-import serial
-import math
-import pynmea2
-from pyproj import Geod
-import gpsnavi
+#import serial
+#import math
+#import pynmea2
+#from pyproj import Geod
 
 
 class getdistance:
@@ -38,47 +37,47 @@ class getdistance:
   
 
 
-class GPIO(RPI.GPIO):  # GPIOをTurtleに
+class GPIO:  # GPIOをTurtleに
 
+    import RPi.GPIO as IO
     def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
-        super().__init__()
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
-        self.setmode(GPIO.BCM)
-        self.setup(self.leftmotor[0], GPIO.OUT)
-        self.setup(self.leftmotor[1], GPIO.OUT)
-        self.setup(self.rightmotor[0], GPIO.OUT)
-        self.setup(self.rightmotor[1], GPIO.OUT)
+        self.IO.setmode(self.IO.BCM)
+        self.IO.setup(self.leftmotor[0], self.IO.OUT)
+        self.IO.setup(self.leftmotor[1], self.IO.OUT)
+        self.IO.setup(self.rightmotor[0], self.IO.OUT)
+        self.IO.setup(self.rightmotor[1], self.IO.OUT)
 
     def forward(self):  # 前進
-        self.output(self.leftmotor[0], False)
-        self.output(self.leftmotor[1], True)
-        self.output(self.rightmotor[0], False)
-        self.output(self.rightmotor[1], True)
+        self.IO.output(self.leftmotor[0], False)
+        self.IO.output(self.leftmotor[1], True)
+        self.IO.output(self.rightmotor[0], False)
+        self.IO.output(self.rightmotor[1], True)
 
         self.time.sleep(0.1)
 
     def back(self):  # 後進
-        self.output(self.leftmotor[0], True)
-        self.output(self.leftmotor[1], False)
-        self.output(self.rightmotor[0], True)
-        self.output(self.rightmotor[1], False)
+        self.IO.output(self.leftmotor[0], True)
+        self.IO.output(self.leftmotor[1], False)
+        self.IO.output(self.rightmotor[0], True)
+        self.IO.output(self.rightmotor[1], False)
 
         self.time.sleep(0.1)
 
     def left(self):  # 左旋回
-        self.output(self.leftmotor[0], True)
-        self.output(self.leftmotor[1], False)
-        self.output(self.rightmotor[0], False)
-        self.output(self.rightmotor[1], True)
+        self.IO.output(self.leftmotor[0], True)
+        self.IO.output(self.leftmotor[1], False)
+        self.IO.output(self.rightmotor[0], False)
+        self.IO.output(self.rightmotor[1], True)
 
         self.time.sleep(0.1)
 
     def right(self):  # 右旋回
-        self.output(self.leftmotor[0], False)
-        self.output(self.leftmotor[1], True)
-        self.output(self.rightmotor[0], True)
-        self.output(self.rightmotor[1], False)
+        self.IO.output(self.leftmotor[0], False)
+        self.IO.output(self.leftmotor[1], True)
+        self.IO.output(self.rightmotor[0], True)
+        self.IO.output(self.rightmotor[1], False)
 
     def goaldistance(self):
         return self.gpsnavi.gpsparser.goaldist
@@ -109,8 +108,5 @@ class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
             self.time.sleep(0.01)
             
-            if goalazimace > 10 and goalazimace < 350 and goaldistance > 30:
+            if self.goalazimace > 10 and self.goalazimace < 350 and self.goaldistance > 30:
                 break
-
-
-
