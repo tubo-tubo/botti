@@ -2,7 +2,6 @@
 #import serial
 #import math
 import gpsnavi
-
 class getdistance:
 
     def __init__(self):
@@ -75,14 +74,12 @@ class GPIO:  # GPIOをTurtleに
     def goalszimace(self):
         return float(self.gpsnavi.goalaz)
 
-
     def turn(self):
         self.getdistance.goal = []
-        self.getdistance.goal.sppend([x,y])              #x,y are variables
-        self.getdistance.goal.sppend([xx,yy])
-        self.getdistance.goal.sppend([xxx,yyy])
-        
-        while len(getdistance.goal.) >= 1:          #If "len" is 0,roba is stop.
+        self.getdistance.goal.sppend([x, y])  # x,y are variables
+        self.getdistance.goal.sppend([xx, yy])
+        self.getdistance.goal.sppend([xxx, yyy])
+        while len(getdistance.goal) >= 1:  # If "len" is 0,roba is stop.
             self.goal = getdistance.goal.pop([0])
 
             while self.goaldistance() > 30:
@@ -98,4 +95,3 @@ class GPIO:  # GPIOをTurtleに
                 self.time.sleep(0.01)
                 self.forward(50)
                 self.time.sleep(0.01)
-                
