@@ -1,105 +1,170 @@
 #!coding:utf-8
 
-
-class Line:                            
-	def __init__ (self,slp,x0,y0):
-		self.slp = float(slp)
-		self.x0 = float(x0)
-		self.y0 = float(y0)
-	
-
-	
-import RPI.GPIO 
-import time
+import serial
 import math
-
-class GPIO(RPI.GPIO):　　　　　　　　　　　　　　　　#GPIOをTurtleに
-	def __init__ (self):
-		super (). __init__()
-		self.setmode(GPIO.BCM)
-		self.setup(17,GPIO.OUT)
-		self.setup(18,GPIO.OUT)
-		self.setup(22,GPIO.OUT)
-		self.setup(27,GPIO.OUT)
-
-	def forward(self):                 #前進
-		self.output(17,False)
-		self.output(18,True)
-		self.output(22,False)
-		self.output(27,True)
-
-		self.time.sleep(0.1)
-	
-	def left(self):　　　　　　　　　　　　　　　　　#左旋回
-		self.output(17,False)
-		self.output(18,False)
-		self.output(22,False)
-		self.output(27,True)
-
-		self.time.sleep(0.1)
-
-	def right(self):                  #右旋回
-		self.output(17,False)
-		self.output(18,True)
-		self.output(22,False)
-		self.output(27,False)
+import pynmea2
+from pyproj import Geod
+import gpsnavi
 
 
+class getdistance:
+
+    def __init__(self):
+        pass
+
+    @property
+    def goal(self):
+        return self._goal
+   
+    @goal.setter
+    def goal(self, value):
+        self._goal = value
+   
+    @property
+    def checkpoint1(self):
+        return self._nowpos
+   
+    @checkpoint.setter
+    def checkpoint1(self, value):
+        self._checkpoint1 = value
+
+     @property
+    def checkpoint2(self):
+        return self._nowpos
+   
+    @checkpoint.setter
+    def checkpoint2(self, value):
+        self._checkpoint2 = value
+  
 
 
-	def revice(self):         #軌道修正
-		
-		while True:
-			
-			self.line = Line(math.tan(math.atan((self.goaly-self.ycor())/(self.goalx-self.xcor()))),self.xcor(),self.ycor())      #現在地取得
-			#self.goal = (100,100)                                                                                               #ゴール位置指定
+class GPIO(RPI.GPIO):  # GPIOをTurtleに
 
-			first_x = 100/5-self.line.x0/5
-			self.forward(self.first_x)
+    def __init__(self, leftmotor=[17, 18], rightmotor=[22, 27]):
+        super().__init__()
+        self.leftmotor = leftmotor
+        self.rightmotor = rightmotor
+        self.setmode(GPIO.BCM)
+        self.setup(self.leftmotor[0], GPIO.OUT)
+        self.setup(self.leftmotor[1], GPIO.OUT)
+        self.setup(self.rightmotor[0], GPIO.OUT)
+        self.setup(self.rightmotor[1], GPIO.OUT)      
+        gg = gpsnavi.gpsparser
+        gc1 = gpsnavi.gpsparser_c1
+        gc2 = gpsnavi.gpsparser_c2
 
-			if math.pow(100-first_x,2) < math.pow(100-xcor(),2):	             #大会で目標値の座標を「100」に代入
-				self.forward(first_x)
+    def forward(self):  # 前進
+        self.output(self.leftmotor[0], False)
+        self.output(self.leftmotor[1], True)
+        self.output(self.rightmotor[0], False)
+        self.output(self.rightmotor[1], True)
+
+        self.time.sleep(0.1)
+
+    def back(self):  # 後進
+        self.output(self.leftmotor[0], True)
+        self.output(self.leftmotor[1], False)
+        self.output(self.rightmotor[0], True)
+        self.output(self.rightmotor[1], False)
+
+        self.time.sleep(0.1)
+
+    def left(self):  # 左旋回
+        self.output(self.leftmotor[0], True)
+        self.output(self.leftmotor[1], False)
+        self.output(self.rightmotor[0], False)
+        self.output(self.rightmotor[1], True)
+
+        self.time.sleep(0.1)
+
+    def right(self):  # 右旋回
+        self.output(self.leftmotor[0], False)
+        self.output(self.leftmotor[1], True)
+        self.output(self.rightmotor[0], True)
+        self.output(self.rightmotor[1], False)
+
+    def goaldistance(self):
+        return self.gg.goaldist
+
+    def goalszimace(self):
+        return float(self.gg.goalaz)
 
 
-			elif math.pow(100-xcor(),2) < 20 :									#目標地へ旋回
-				
-				if self.line.y0 - 100 < 0 and self.line.x0 - 100 > 0 :                           #第4象限
-					self.left(90)
-					break
 
-				elif self.line.y0 - 100 < 0 and self.line.x0 - 100 < 0:								#第3象限
-					self.right(90)
-					break
+    def go_check1(self):       
+        while True:
 
-				elif self.line.y0 - 100 > 0 and self.line.x0 - 100 < 0:                             #第2象限
-					self.left(90)
-					break
+            if 0 < self.gc1.goalazimace <= 90:
+                self.right(30)
+            
+            elif 90 < self.gc1.goalazimace <= 180:
+                 self.right(150)
+            
+            elif 180 < self.gc1.goalazimace <= 270:
+                self.left(150)
+            
+            else:
+                self.left(30)
 
-				elif self.line.y0 - 100 > 0 and self.line.x0 - 100 > 0:                             #第1象限
-					self.right(90)
-					break
-			
+            self.time.sleep(0.01)
 
-			elif math.pow(100-first_x,2) > math.pow(100-xcor(),2):
-				self.left(100)
+            self.forward(50)
+
+            self.time.sleep(0.01)
+            
+            if gc1.goalazimace > 10 and gc1.goalazimace < 350 and gc1.goaldistance > 30:
+                break
 
 
-			self.time.sleep(0.1)
-		
+    def go_check2(self):       
+        while True:
 
-	def go(self):
-		self.line = Line(math.tan(math.atan((self.goaly-self.ycor())/(self.goalx-self.xcor()))),self.xcor(),self.ycor())      #現在地取得
-		#while math.pow(100-self.ycor(),2) > 10:
-		
-		self.time.sleep(0.1)
+            if 0 < self.gc2.goalazimace <= 90:
+                self.right(30)
+            
+            elif 90 < self.gc2.goalazimace <= 180:
+                 self.right(150)
+            
+            elif 180 < self.gc2.goalazimace <= 270:
+                self.left(150)
+            
+            else:
+                self.left(30)
 
-		while math.pow(100-self.ycor(),2) > 10:												#houkou
+            self.time.sleep(0.01)
 
-			if self.line.y0 - 100 < 0 :                                
-				self.forward(self.ycor() - 100)	
+            self.forward(50)
 
-				
-			elif self.line.y0 - 100 > 0:													#houkou
-				self.forward(100 - self.ycor())
-			
-		self.time.sleep(0.1)
+            self.time.sleep(0.01)
+            
+            if gc2.goalazimace > 10 and gc2.goalazimace < 350 and gc2.goaldistance > 30:
+                break
+
+
+
+    def go_goal(self):       
+        while True:
+
+            if 0 < self.gg.goalazimace <= 90:
+                self.right(30)
+            
+            elif 90 < self.gg.goalazimace <= 180:
+                 self.right(150)
+            
+            elif 180 < self.gg.goalazimace <= 270:
+                self.left(150)
+            
+            else:
+                self.left(30)
+
+            self.time.sleep(0.01)
+
+            self.forward(50)
+
+            self.time.sleep(0.01)
+            
+            if gg.goalazimace > 10 and gg.goalazimace < 350 and gg.goaldistance > 30:
+                break
+
+
+
