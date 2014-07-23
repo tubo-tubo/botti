@@ -17,18 +17,30 @@ class getdistance:
     @goal.setter
     def goal(self, value):
         self._goal = value
-   
+
     @property
     def checkpoint1(self):
+        return self._nowpos
+
+    @checkpoint1.setter
+    def checkpoint1(self):
+        return self._nowpos
+
+    @property
+    def nowpos(self):
         return self._nowpos
 
     @nowpos.setter
     def nowpos(self, value):
         self._nowpos = value
 
-     @property
+    @property
     def checkpoint2(self):
         return self._nowpos
+
+    @property
+    def checkpoint(self, value):
+        self._checkpoint = value
 
     @checkpoint.setter
     def checkpoint(self, value):
@@ -84,55 +96,36 @@ class GPIO:  # GPIOをTurtleに
     def goalszimace(self):
         return float(self.gg.goalaz)
 
-
-
-    def go_check1(self):       
+    def go_check1(self):
         while True:
-
             if 0 < self.gc1.goalazimace <= 90:
                 self.right(30)
-            
             elif 90 < self.gc1.goalazimace <= 180:
-                 self.right(150)
-            
+                self.right(150)
             elif 180 < self.gc1.goalazimace <= 270:
                 self.left(150)
-            
             else:
                 self.left(30)
-
             self.time.sleep(0.01)
-
             self.forward(50)
-
             self.time.sleep(0.01)
-            
-            if gc1.goalazimace > 10 and gc1.goalazimace < 350 and gc1.goaldistance > 30:
+            if self.gc1.goalazimace > 10 and self.gc1.goalazimace < 350 and self.gc1.goaldistance > 30:
                 break
 
-
-    def go_check2(self):       
+    def go_check2(self):
         while True:
-
             if 0 < self.gc2.goalazimace <= 90:
                 self.right(30)
-            
             elif 90 < self.gc2.goalazimace <= 180:
-                 self.right(150)
-            
+                self.right(150)
             elif 180 < self.gc2.goalazimace <= 270:
                 self.left(150)
-            
             else:
                 self.left(30)
-
             self.time.sleep(0.01)
-
             self.forward(50)
-
             self.time.sleep(0.01)
-            
-            if gc2.goalazimace > 10 and gc2.goalazimace < 350 and gc2.goaldistance > 30:
+            if self.gc2.goalazimace > 10 and self.gc2.goalazimace < 350 and self.gc2.goaldistance > 30:
                 break
 
     def turn(self):
