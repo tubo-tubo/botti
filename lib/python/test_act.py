@@ -3,12 +3,11 @@ import RPi.GPIO as IO
 import time
 import sys
 
-p3 = 22 # pin 15 右前
-p4 = 23 # pin 16 右後ろ
+p3 = 17 # pin 15 右前
+p4 = 18 # pin 16 右後ろ
 
-p5 = 24 # pin 18 左前
-p6 = 25 # pin 22 左後ろ
-i  = sys.argv[0]
+p5 = 22 # pin 18 左前
+p6 = 27 # pin 22 左後ろ
 
 IO.setmode(IO.BCM)
 
@@ -18,6 +17,9 @@ IO.setup(p5,IO.OUT)
 IO.setup(p6,IO.OUT)
 
 while true:
+	print('[0,1,2,3,other_number]')
+	i = int(raw_input().split()[0])
+	time.sleep(1)
 	if i == 0:
 		IO.output(p3,IO.HIGH)
 		IO.output(p4,IO.HIGH)
