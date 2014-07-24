@@ -1,7 +1,9 @@
 
 class GPIO:  # GPIOをTurtleに
     import RPi.GPIO as IO
-
+    import go_f
+    import math
+    
     def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
@@ -44,27 +46,47 @@ class GPIO:  # GPIOをTurtleに
     def goaldistance(self):
         return self.gpsnavi.goaldist
 
-    def goalszimace(self):
+    def goalszimath(self):
         return float(self.gpsnavi.goalaz)
+
+    def x_coordinates(self):
+        return self.gpsnavi.goalhorizontaldistance
+
+    def y_coordinates(self):
+        return self.gpsnavi.goalverticaldistance
 
     def turn(self):
         self.getdistance.goal = []
         self.getdistance.goal.sppend([x, y])  # x,y are variables
         self.getdistance.goal.sppend([xx, yy])
         self.getdistance.goal.sppend([xxx, yyy])
-        while len(getdistance.goal) >= 1:  # If "len" is 0,roba is stop.
-            self.goal = getdistance.goal.pop([0])
+        self.x_coord = []
+        self.y_coord = []
 
-            while self.goaldistance() > 30:
-
-                if 0 < self.goalazimace <= 90:
-                    self.right(30)
-                elif 90 < self.goalazimace <= 180:
-                    self.right(150)
-                elif 180 < self.goalazimace <= 270:
-                    self.left(150)
-                else:
-                    self.left(30)
-                self.time.sleep(0.01)
+        while len(self.getdistance.goal) >= 1:  # If "len" is 0,roba is stop.
+            self.goal = self.getdistance.goal.pop([0])
+            
+            while self.goal > 30:
+                self.go_f.nowpos.pop([0])                 
+                self.go_f.nowpos.append([self.goalazimath])
+                self.x_coord.pop([0])
+                self.x_coord.append([self.x_coordinates])                        
+                self.y_coord.pop([0])
+                self.y_coord.append([self.y_coordinates])                                     
                 self.forward(50)
+                self.time.sleep(0.01)
+                self.atan = self.math.atan("("[self.y_coordinates - self.y_coord]")" / "("[self.x_coordinates - self.x_coord]")")
+
+                if 0 < self.goalszimath < 90 or 270 < self.goalszimath < 360  and "("[self.x_coordinates - self.x_coord]")" < 0: 
+                    self.right(180 - self.atan)    
+                elif 0 < self.goalszimath < 90 or 270 < self.goalszimath < 360 and "("[self.x_coordinates - self.x_coord]")" > 0:
+                    self.left(180 - self.atan)    
+                elif 90 < self.goalszimath < 270 and "("[self.x_coordinates - self.x_coord]")" < 0: #
+                    self.left(180 - self.atan)                    
+                elif 90 < self.goalszimath < 270 and "("[self.x_coordinates - self.x_coord]")" > 0: #
+                    self.right(180 - self.atan) 
+                else :
+                    self.right(180 - self.atan)                    
+
+                self.forward(self.getdistance.goal)
                 self.time.sleep(0.01)
