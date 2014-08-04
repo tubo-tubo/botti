@@ -1,9 +1,16 @@
 
 class GPIO:  # GPIOをTurtleに
     import RPi.GPIO as IO
-    #import go_f
+    import go_f
     import math
     
+    gof = go_f.getdistance
+    gof.goal = []
+    gof.goal.sppend([lon1, lat1]) 
+    gof.goal.sppend([lon2, lat2])
+    gof.goal.sppend([lon3, lat3])
+    gps = gpsnavi.gpsparser(goal=gof.goal)
+
     def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
@@ -40,45 +47,40 @@ class GPIO:  # GPIOをTurtleに
         self.IO.output(self.rightmotor[0], True)
         self.IO.output(self.rightmotor[1], False)
 
-    def goaldistance(self):
-        return self.gpsnavi.goaldist
-
-    def goalszimath(self):
-        return float(self.gpsnavi.goalaz)
-
-    def x_coordinates(self):
-        return self.gpsnavi.goalhorizontaldistance
-
     def y_coordinates(self):
-        return self.gpsnavi.goalverticaldistance
+        return self.gps.goalverticaldistance
 
     def turn(self):
-        self.x_coord = []
         self.y_coord = []
+        
+        while len(gps) > 0:  # If "len" is 0,roba is stop.
+            gps.pop([0])
 
-        while len(self.goal) >= 1:  # If "len" is 0,roba is stop.
-            goal = go_f.goal.pop([0])
-            
             while self.goaldistance > 30:
-                self.go_f.nowpos.pop([0])                 
-                self.go_f.nowpos.append([self.goalazimath])
-                self.x_coord.pop([0])
-                self.x_coord.append([self.x_coordinates])                        
-                self.y_coord.pop([0])
-                self.y_coord.append([self.y_coordinates])                                     
-                self.forward(50)
+                
+                while True:                       
+                    self.y_coord.pop([0])
+                    self.y_coord.append([self.y_coordinates])                                     
+                    self.forward(50)
+                    
+                    if self.y_coord = self.y_coordinates:
+                        self.back(50)
+                        self.left(30)
+                        self.time.sleep(0.01)
+                    elif:
+                        break
+
                 self.time.sleep(0.01)
-                self.atan = self.math.atan("("[self.y_coordinates - self.y_coord]")" / "("[self.x_coordinates - self.x_coord]")") 
 
-                if 0 < self.goalszimath < 90 or 270 < self.goalszimath < 360  and "("[self.y_coordinates - self.y_coord]")" < 0:    #1st quadrant , 4th quadrant , south direction
-                    self.right(180 - self.atan)    
-                elif 0 < self.goalszimath < 90 or 270 < self.goalszimath < 360 and "("[self.y_coordinates - self.y_coord]")" > 0:   #2nd quadrant , 3rd quadrant , north direction
-                elif 90 < self.goalszimath < 270 and "("[self.y_coordinates - self.y_coord]")" < 0:     #2nd quadrant , 3rd quadrant , south direction
-                    self.left(180 - self.atan)                    
-                elif 90 < self.goalszimath < 270 and "("[self.y_coordinates - self.y_coord]")" > 0:     #2nd quadrant , 3rd quadrant , north direction
-                    self.right(180 - self.atan) 
-                else :
-                    self.right(180 - self.atan)                    
+                if 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360  and self.y_coordinates < self.y_coord :    #1st quadrant , 4th quadrant , south direction
+                    self.right(self.gps.goalszimath)    
+                elif 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360 and self.y_coordinates > self.y_coord :   #1nd quadrant , 4rd quadrant , north direction
+                    self.left(self.gps.goalszimath)
+                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates < self.y_coord :     #2nd quadrant , 3rd quadrant , south direction
+                    self.left(self.gps.goalszimath)                    
+                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates > self.y_coord :     #2nd quadrant , 3rd quadrant , north direction
+                    self.right(self.gps.goalszimath) 
 
-                self.forward(self.getdistance.goal)
+                self.time.sleep(0.01)                  
+                self.forward(self.gps.getdistance)
                 self.time.sleep(0.01)
