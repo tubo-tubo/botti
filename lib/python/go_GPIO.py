@@ -3,10 +3,10 @@ class GPIO:  # GPIOをTurtleに
     import RPi.GPIO as IO
     import go_f
     import math
-    
-    gof = go_f.getdistance
+    import gpsnavi
+    gof = go_f.getdistance()
     gof.goal = []
-    gof.goal.sppend([lon1, lat1]) 
+    gof.goal.sppend([lon1, lat1])
     gof.goal.sppend([lon2, lat2])
     gof.goal.sppend([lon3, lat3])
     gps = gpsnavi.gpsparser(goal=gof.goal)
@@ -52,35 +52,32 @@ class GPIO:  # GPIOをTurtleに
 
     def turn(self):
         self.y_coord = []
-        
         while len(gps) > 0:  # If "len" is 0,roba is stop.
-            gps.pop([0])
+            gps.pop(0)
 
             while self.goaldistance > 30:
-                
-                while True:                       
+                while True:
                     self.y_coord.pop([0])
-                    self.y_coord.append([self.y_coordinates])                                     
+                    self.y_coord.append([self.y_coordinates])
                     self.forward(50)
-                    
-                    if self.y_coord = self.y_coordinates:
+                    if self.y_coord == self.y_coordinates:
                         self.back(50)
                         self.left(30)
                         self.time.sleep(0.01)
-                    elif:
+                    else:
                         break
 
                 self.time.sleep(0.01)
 
-                if 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360  and self.y_coordinates < self.y_coord :    #1st quadrant , 4th quadrant , south direction
-                    self.right(self.gps.goalszimath)    
-                elif 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360 and self.y_coordinates > self.y_coord :   #1nd quadrant , 4rd quadrant , north direction
+                if 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360 and self.y_coordinates < self.y_coord:    #1st quadrant , 4th quadrant , south direction
+                    self.right(self.gps.goalszimath)
+                elif 0 <= self.gps.goalszimath < 90 or 270 < self.gps.goalszimath <= 360 and self.y_coordinates > self.y_coord:   #1nd quadrant , 4rd quadrant , north direction
                     self.left(self.gps.goalszimath)
-                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates < self.y_coord :     #2nd quadrant , 3rd quadrant , south direction
-                    self.left(self.gps.goalszimath)                    
-                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates > self.y_coord :     #2nd quadrant , 3rd quadrant , north direction
-                    self.right(self.gps.goalszimath) 
+                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates < self.y_coord:     #2nd quadrant , 3rd quadrant , south direction
+                    self.left(self.gps.goalszimath)
+                elif 90 <= self.gps.goalszimath <= 270 and self.y_coordinates > self.y_coord:     #2nd quadrant , 3rd quadrant , north direction
+                    self.right(self.gps.goalszimath)
 
-                self.time.sleep(0.01)                  
+                self.time.sleep(0.01)
                 self.forward(self.gps.getdistance)
                 self.time.sleep(0.01)
