@@ -1,10 +1,11 @@
 #!coding:utf-8
 #import serial
 #import math
-import gpsnavi
+
 class getdistance:
 
     def __init__(self):
+        self._goal = []
         pass
 
     @property
@@ -13,9 +14,8 @@ class getdistance:
 
     @goal.setter
     def goal(self, value):
-        self._goal = value
+        self._goal.extend(value)
 
-    
     @property
     def nowpos(self):
         return self._nowpos
@@ -23,5 +23,4 @@ class getdistance:
     @nowpos.setter
     def nowpos(self, value):
         self._nowpos = value
-
 
