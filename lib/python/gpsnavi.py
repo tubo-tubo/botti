@@ -7,7 +7,7 @@ class gpsparser(object):
     import pynmea2
     from pyproj import Geod
 
-    def __init__(self, portname=None, goal=[138.75665666666666, 35.68582166666667]):
+    def __init__(self, portname=None, goal=[[138.75665666666666, 35.68582166666667]]):
         self.goal = goal
         if portname is not None:
             self.ser = self.serial.Serial(port=portname)
@@ -49,7 +49,7 @@ class gpsparser(object):
     def goalcalc(self):
         nowpos = [self.longitude(), self.latitude()]
         g = self.Geod(ellps='WGS84')
-        self.goalaz, self.goalbackaz, self.goaldist = g.inv(nowpos[0], nowpos[1],self.goal[0], self.goal[1])
+        self.goalaz, self.goalbackaz, self.goaldist = g.inv(nowpos[0], nowpos[1], self.goal[0][0], self.goal[0][1])
 
     def goaldistance(self):
         return self.goaldist
