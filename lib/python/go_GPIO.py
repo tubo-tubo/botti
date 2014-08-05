@@ -1,17 +1,16 @@
+#!coding:utf-8
+
+import RPi.GPIO as IO
+import go_f
+import gpsnavi
+
 
 class GPIO:  # GPIOをTurtleに
-    import RPi.GPIO as IO
-    import go_f
-    import math
-    import gpsnavi
-    gof = go_f.getdistance()
-    gof.goal = []
-    gof.goal.sppend([lon1, lat1])
-    gof.goal.sppend([lon2, lat2])
-    gof.goal.sppend([lon3, lat3])
-    gps = gpsnavi.gpsparser(goal=gof.goal)
 
-    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22]):
+    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[]):
+        gof = go_f.getdistance()
+        gof.goal = goalpos
+        self.gps = gpsnavi.gpsparser(goal=gof.goal)
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
         self.IO.setmode(self.IO.BCM)
@@ -52,8 +51,8 @@ class GPIO:  # GPIOをTurtleに
 
     def turn(self):
         self.y_coord = []
-        while len(gps) > 0:  # If "len" is 0,roba is stop.
-            gps.pop(0)
+        while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
+            self.gps.goal.pop(0)
 
             while self.goaldistance > 30:
                 while True:
