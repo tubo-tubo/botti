@@ -10,7 +10,7 @@ class Testgpsnavi(unittest.TestCase):
     lon = 141.24322166666667
     lat = 43.123041666666666
     #lat = 35.705385
-    goal = [lon, lat]
+    goal = [[lon, lat]]
     gps = gpsnavi.gpsparser(goal=goal)
     #getdis = go_f.getdistance()
 
