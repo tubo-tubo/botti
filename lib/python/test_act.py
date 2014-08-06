@@ -1,3 +1,4 @@
+#coding:utf-8 
 
 import RPi.GPIO as IO
 import time
@@ -17,7 +18,7 @@ IO.setup(p6, IO.OUT)
 
 while True:
     print('[0,1,2,3,other_number]')
-    i = int(raw_input().split()[0])
+    i = int(input().split()[0])
     time.sleep(1)
     if i == 0:
         IO.output(p3, IO.HIGH)
