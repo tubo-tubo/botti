@@ -1,0 +1,6 @@
+pyserial
+pynmea2
+pyproj
+numpy
+pillow
+mox3
