@@ -1,0 +1,25 @@
+---
+- hosts: botti
+  user: pi
+  sudo: yes
+  vars:
+    work_dir: /home/pi
+    repos_dir: "{{ work_dir }}/botti"
+    branch: dev
+    pippackages:
+      - pyserial
+      - pynmea2
+      - pyproj
+      - mox3
+      - picamera
+      - numpy
+  tasks:
+  - name: Apt
+    apt: name=python3 state=installed
+    apt: name=python3-pip state=installed
+    apt: name=git state=installed
+  - name: pip install
+    pip: name={{ item }} executable=pip-3.2
+    with_items: pippackages
+  - name: test_gpsnavi.py
+    command: chdir=/home/pi/botti/lib/python python3 ./test_gpsnavi.py
