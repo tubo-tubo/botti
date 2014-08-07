@@ -8,8 +8,12 @@ import time
 class flagcapture(object):
 
     def capture(self):
-        self.imagename = str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+".png"
-        subprocess.call("raspistill -o " + self.imagename + " -t 0")
+        try:
+            self.imagename = str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+".png"
+            subprocess.call("raspistill -o " + self.imagename + " -t 0")
+            return True
+        except:
+            return False
 
     def judge(self, selectcolor='red', selectcolor_judge=110, othercolor1_judge=100, othercolor2_judge=100):
         judgeimage = self.JudgeGoal(filename=self.imagename, selectcolor_judge=selectcolor_judge, othercolor1_judge=othercolor1_judge, othercolor2_judge=othercolor2_judge)
