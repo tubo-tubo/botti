@@ -25,6 +25,23 @@ class flagjudgeTest(unittest.TestCase):
         self.assertEqual(count, '4923')
         self.assertNotEqual(count, 4923)
 
+    def testjudge1green(self):
+        cap = flagjudge.flagcapture()
+        cap.imagename = os.path.dirname(__file__)+'/testimage/colorcone.jpg'
+        print(cap.imagename)
+        direction, count = cap.judge(selectcolor='green')
+        self.assertEqual(direction, 'center')
+        self.assertEqual(count, '149')
+        self.assertNotEqual(count, 149)
+
+    def testjudge1blue(self):
+        cap = flagjudge.flagcapture()
+        cap.imagename = os.path.dirname(__file__)+'/testimage/colorcone.jpg'
+        print(cap.imagename)
+        direction, count = cap.judge(selectcolor='blue')
+        self.assertEqual(direction, 'center')
+        self.assertEqual(count, '93')
+        self.assertNotEqual(count, 93)
     def testjudge2(self):
         cap = flagjudge.flagcapture()
         cap.imagename = os.path.dirname(__file__)+'/testimage/colorcone2.jpg'
