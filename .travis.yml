@@ -12,13 +12,11 @@ install:
     - travis_retry pip install pyserial pynmea2 pyproj numpy pillow mox3 coverage
 script:
     - coverage -a ./lib/python/test_flagjudge.py
-    - cat ./lib/pythontest_flagjudge.py,cover
     - coverage -a ./lib/python/test_gpsnavi.py
-    - cat ./lib/pythontest_gpsnavi.py,cover
 notifications:
     webhooks:
         urls:
-            - https://gitter.im/SugimotoSohei/botti
+            - https://webhooks.gitter.im/e/58b038fa72924be5df63 
         on_success: change
         on_failure: always
         on_start: false
