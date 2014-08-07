@@ -1,6 +1,14 @@
 botti
 =====
+
+master
+
 [![Build Status](https://travis-ci.org/SugimotoSohei/botti.png?branch=master)](https://travis-ci.org/SugimotoSohei/botti)
+
+dev
+
+[![Build Status](https://travis-ci.org/SugimotoSohei/botti.svg?branch=dev)](https://travis-ci.org/SugimotoSohei/botti)
+
 ローバで使用するコードを保管しておくプロジェクトです．
 
 6/20
