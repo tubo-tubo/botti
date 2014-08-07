@@ -3,6 +3,7 @@ import unittest
 import datetime
 import mox3
 import go_f
+import os
 
 
 class Testgpsnavi(unittest.TestCase):
@@ -40,7 +41,7 @@ class Testgpsnavi(unittest.TestCase):
         if len(sys.argv) > 1:
             f = open(sys.argv[1])
         else:
-            f = open('./test/teine.txt')
+            f = open(os.path.dirname(__file__)+'/test/teine.txt')
         for data in f.readlines():
         #    sio.write(data)
         #    sio.flush()
