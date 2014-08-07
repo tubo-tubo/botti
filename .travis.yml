@@ -9,7 +9,7 @@ branches:
         - master
 
 install:
-    - travis_retry pip install -r pyserial pynmea2 pyproj numpy pillow mox3 coverage
+    - travis_retry pip install pyserial pynmea2 pyproj numpy pillow mox3 coverage
 script:
     - coverage -a ./lib/python/test_flagjudge.py
     - cat ./lib/pythontest_flagjudge.py,cover
