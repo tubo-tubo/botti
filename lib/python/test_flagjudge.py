@@ -10,18 +10,29 @@ class MyException(Exception):
 
 
 class flagjudgeTest(unittest.TestCase):
-    def setUp(self):
-        self.cap = flagjudge.flagcapture()
 
     def testcapture(self):
-        if self.cap.capture() is True:
-            self.imagename = self.cap.imagename
-            print(self.cap.judge())
+        cap = flagjudge.flagcapture()
+        if cap.capture() is True:
+            print(cap.judge())
 
-    def testjudge(self):
-        self.cap.imagename = os.path.dirname(__file__)+'/colorcone2.jpg'
-        print(self.cap.imagename)
-        print(self.cap.judge())
+    def testjudge1(self):
+        cap = flagjudge.flagcapture()
+        cap.imagename = os.path.dirname(__file__)+'/testimage/colorcone.jpg'
+        print(cap.imagename)
+        direction, count = cap.judge()
+        self.assertEqual(direction, 'right')
+        self.assertEqual(count, '4923')
+        self.assertNotEqual(count, 4923)
+
+    def testjudge2(self):
+        cap = flagjudge.flagcapture()
+        cap.imagename = os.path.dirname(__file__)+'/testimage/colorcone2.jpg'
+        print(cap.imagename)
+        direction, count = cap.judge()
+        self.assertEqual(direction, 'center')
+        self.assertEqual(count, '3328')
+        self.assertNotEqual(count, 3328)
 
 
 if __name__ == '__main__':
