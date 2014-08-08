@@ -1,6 +1,12 @@
 #!coding:utf-8
+import os
+import sys
+if os.getlogin() == 'pi':
+    import RPi.GPIO as IO
+else:
+    sys.path.append(os.path.dirname(__file__))
+    from RpiTest import GPIO as IO
 
-import RPi.GPIO as IO
 import go_f
 import logging
 

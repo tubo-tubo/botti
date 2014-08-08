@@ -15,6 +15,8 @@ script:
     - coverage -a ./lib/python/test_flagjudge.py
     - python ./lib/python/test_gpsnavi.py
     - coverage -a ./lib/python/test_gpsnavi.py
+    - python ./lib/python/test_gpio.py
+    - coverage -a ./lib/python/test_gpio.py
 notifications:
     webhooks:
         urls:
