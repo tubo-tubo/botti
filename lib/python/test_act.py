@@ -3,11 +3,11 @@
 import RPi.GPIO as IO
 import time
 
-p3 = 17  # pin 15 右前
-p4 = 18  # pin 16 右後ろ
+p3 = 22  # pin 15 右前
+p4 = 23  # pin 16 右後ろ
 
-p5 = 22  # pin 18 左前
-p6 = 27  # pin 22 左後ろ
+p5 = 24  # pin 18 左前
+p6 = 25  # pin 22 左後ろ
 
 IO.setmode(IO.BCM)
 
