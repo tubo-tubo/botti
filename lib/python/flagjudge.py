@@ -3,6 +3,7 @@ import numpy as np
 import subprocess
 import datetime
 import time
+import logging
 
 
 class flagcapture(object):
@@ -11,14 +12,17 @@ class flagcapture(object):
         try:
             self.imagename = str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+".png"
             subprocess.call("raspistill -o " + self.imagename + " -t 0")
+            logging.info("capture:"+str(self.imagename))
             return True
         except:
+            logging.info("capture:Failed")
             return False
 
     def judge(self, selectcolor='red', selectcolor_judge=110, othercolor1_judge=100, othercolor2_judge=100):
         judgeimage = self.JudgeGoal(filename=self.imagename, selectcolor_judge=selectcolor_judge, othercolor1_judge=othercolor1_judge, othercolor2_judge=othercolor2_judge)
         judgeimage.loadimage()
         judgeimage.objectselect(colorname=selectcolor)
+        logging.info("judge")
         return judgeimage.objectdirection()
 
     class JudgeGoal():
@@ -82,10 +86,13 @@ class flagcapture(object):
                             rightcount = rightcount+1
             if leftcount > centercount and leftcount > rightcount:
                     print("leftcount:"+str(leftcount))
+                    logging.info("objectdirection:"+"leftcount:"+str(leftcount))
                     return ["left", str(leftcount)]
             if centercount > rightcount and centercount > leftcount:
                     print("centercount:"+str(centercount))
+                    logging.info("objectdirection:"+"centercount:"+str(centercount))
                     return ["center", str(centercount)]
             if rightcount > centercount and rightcount > leftcount:
                     print("rightcount:"+str(rightcount))
+                    logging.info("objectdirection:"+"rightcount:"+str(rightcount))
                     return ["right", str(rightcount)]

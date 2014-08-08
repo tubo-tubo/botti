@@ -3,6 +3,7 @@
 import RPi.GPIO as IO
 import go_f
 import gpsnavi
+import logging
 
 
 class GPIO:  # GPIOをTurtleに
@@ -18,37 +19,43 @@ class GPIO:  # GPIOをTurtleに
         self.IO.setup(self.leftmotor[1], self.IO.OUT)
         self.IO.setup(self.rightmotor[0], self.IO.OUT)
         self.IO.setup(self.rightmotor[1], self.IO.OUT)
+        logging.info("GPIOInit")
 
-    def forward(self): # 前進
+    def forward(self): 
         self.IO.output(self.leftmotor[0], False)
         self.IO.output(self.leftmotor[1], True)
         self.IO.output(self.rightmotor[0], False)
         self.IO.output(self.rightmotor[1], True)
         self.time.sleep(0.01)
+        logging.info("Forward")
 
-    def back(self): # 後進
+    def back(self):
         self.IO.output(self.leftmotor[0], True)
         self.IO.output(self.leftmotor[1], False)
         self.IO.output(self.rightmotor[0], True)
         self.IO.output(self.rightmotor[1], False)
         self.time.sleep(0.01)
+        logging.info("back")
 
-    def left(self): # 左旋回
+    def left(self):
         self.IO.output(self.leftmotor[0], True)
         self.IO.output(self.leftmotor[1], False)
         self.IO.output(self.rightmotor[0], False)
         self.IO.output(self.rightmotor[1], True)
         self.time.sleep(0.01)
+        logging.info("left")
 
-    def right(self): # 右旋回
+    def right(self):
         self.IO.output(self.leftmotor[0], False)
         self.IO.output(self.leftmotor[1], True)
         self.IO.output(self.rightmotor[0], True)
         self.IO.output(self.rightmotor[1], False)
+        logging.info("right")
 
     def y_coordinates(self):
         self.gps.gpsupdate()
         self.gps.goalcalc()
+        logging.info("y_coordinates:"+self.gps.goalverticaldistance())
         return self.gps.goalverticaldistance()
 
     def _bump(self, before, after):
@@ -56,6 +63,7 @@ class GPIO:  # GPIOをTurtleに
             self.back(50)
             self.left(30)
             self.time.sleep(0.01)
+            logging.info("bomp")
             return True
         else:
             return False

@@ -1,16 +1,18 @@
 #!coding:utf-8
 
+import serial
+import math
+import pynmea2
+from pyproj import Geod
+import logging
 
 class gpsparser(object):
-    import serial
-    import math
-    import pynmea2
-    from pyproj import Geod
 
     def __init__(self, portname=None, goal=[[138.75665666666666, 35.68582166666667]]):
         self.goal = goal
         if portname is not None:
-            self.ser = self.serial.Serial(port=portname)
+            self.ser = serial.Serial(port=portname)
+            logging.info("open SerialPort")
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
@@ -18,29 +20,36 @@ class gpsparser(object):
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
+        logging.info("gpsupdate:"+self.gpsdata)
 
     def NMEAanAlysis(self, data):
-        return self.pynmea2.parse(data)
+        return pynmea2.parse(data)
 
     def timestamp(self):
         return self.gpsdata.timestamp
 
     def lat(self):
+        logging.info(str(self.gpsdata.lat))
         return float(self.gpsdata.lat)
 
     def latitude(self):
+        logging.info(str(self.gpsdata.latitude))
         return float(self.gpsdata.latitude)
 
     def lon(self):
+        logging.info(str(self.gpsdata.lon))
         return float(self.gpsdata.lon)
 
     def longitude(self):
+        logging.info(str(self.gpsdata.longitude))
         return float(self.gpsdata.longitude)
 
     def sat_receivejudge(self):
         if int(self.gpsdata.num_sats) >= 4:
+            logging.info("OKGpsnum:"+str(self.gpsdata.num_sats))
             return True
         else:
+            logging.info("NoGpsnum:"+str(self.gpsdata.num_sats))
             return False
 
     def altitude(self):
@@ -48,17 +57,21 @@ class gpsparser(object):
 
     def goalcalc(self):
         nowpos = [self.longitude(), self.latitude()]
-        g = self.Geod(ellps='WGS84')
+        g = Geod(ellps='WGS84')
         self.goalaz, self.goalbackaz, self.goaldist = g.inv(nowpos[0], nowpos[1], self.goal[0][0], self.goal[0][1])
 
     def goaldistance(self):
+        logging.info("goaldistance:"+str(self.goaldist))
         return self.goaldist
 
     def goalhorizontaldistance(self):
-        return self.math.cos(self.goalazimath())*self.goaldistance()
+        logging.info("goalhorizontaldistance:"+str(math.cos(self.goalazimath())*self.goaldistance()))
+        return math.cos(self.goalazimath())*self.goaldistance()
 
     def goalverticaldistance(self):
-        return self.math.sin(self.goalazimath())*self.goaldistance()
+        logging.info("goalverticaldistance:"+str(math.sin(self.goalazimath())*self.goaldistance()))
+        return math.sin(self.goalazimath())*self.goaldistance()
 
     def goalazimath(self):
+        logging.info("goalAzimath:"+str(self.goalaz))
         return float(self.goalaz)
