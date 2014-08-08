@@ -3,6 +3,8 @@
 import go_GPIO
 import time
 import gpsnavi
+import logging
+import datetime
 
 
 def landing(gps, groundalt):
@@ -33,6 +35,8 @@ def arrive():
     pass
 
 if __name__ == '__main__':
+    logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
+    logging.info('Started')
     goal = []
     goal.append([141.24322166666667, 43.123041666666666])
     goal.append([139.649867, 35.705385])
@@ -41,5 +45,10 @@ if __name__ == '__main__':
     gps.gpsupdate()
     groundalt = gps.altitude()  # 現地で計測する予定
     landing(gps, groundalt)
+    logging.info('landing finish')
+    logging.info('travel start')
     travel()
+    logging.info('travel finish')
+    logging.info('arrive start')
     arrive()
+    logging.info('Finished')
