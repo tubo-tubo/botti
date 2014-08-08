@@ -6,6 +6,7 @@ import pynmea2
 from pyproj import Geod
 import logging
 
+
 class gpsparser(object):
 
     def __init__(self, portname=None, goal=[[138.75665666666666, 35.68582166666667]]):

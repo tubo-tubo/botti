@@ -7,7 +7,7 @@ import logging
 import datetime
 
 
-def landing(gps, groundalt):
+def landing(gps, groundalt, gogpio):
     count = 0
     while True:
         gps.gpsupdate()
@@ -24,14 +24,14 @@ def landing(gps, groundalt):
         if groundalt - 10 <= gps.altitude() <= groundalt + 10:
             count += 1
     time.sleep(30)
-    go_GPIO.forward(20)
+    gogpio.forward(20)
 
 
-def travel():
-    go_GPIO.GPIO.turn()
+def travel(gps, gogpio):
+    gogpio.turn()
 
 
-def arrive():
+def arrive(gps, gogpio):
     pass
 
 if __name__ == '__main__':
@@ -40,15 +40,17 @@ if __name__ == '__main__':
     goal = []
     goal.append([141.24322166666667, 43.123041666666666])
     goal.append([139.649867, 35.705385])
+    gpsport = None
 
-    gps = gpsnavi.gpsparser(goal=goal)
+    gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
+    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps)
     groundalt = gps.altitude()  # 現地で計測する予定
-    landing(gps, groundalt)
+    landing(gps, groundalt, gogpio)
     logging.info('landing finish')
     logging.info('travel start')
-    travel()
+    travel(gps, gogpio)
     logging.info('travel finish')
     logging.info('arrive start')
-    arrive()
+    arrive(gogpio)
     logging.info('Finished')

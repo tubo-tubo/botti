@@ -2,16 +2,15 @@
 
 import RPi.GPIO as IO
 import go_f
-import gpsnavi
 import logging
 
 
 class GPIO:  # GPIOをTurtleに
 
-    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[]):
+    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None):
         gof = go_f.getdistance()
         gof.goal = goalpos
-        self.gps = gpsnavi.gpsparser(goal=gof.goal)
+        self.gps = gps
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
         self.IO.setmode(self.IO.BCM)
