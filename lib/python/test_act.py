@@ -22,23 +22,23 @@ while True:
     time.sleep(1)
     if i == 0:
         IO.output(p3, IO.HIGH)
-        IO.output(p4, IO.HIGH)
-        IO.output(p5, IO.LOW)
+        IO.output(p5, IO.HIGH)
+        IO.output(p4, IO.LOW)
         IO.output(p6, IO.LOW)
     elif i == 1:
         IO.output(p3, IO.LOW)
-        IO.output(p4, IO.LOW)
-        IO.output(p5, IO.HIGH)
+        IO.output(p5, IO.LOW)
+        IO.output(p4, IO.HIGH)
         IO.output(p6, IO.HIGH)
     elif i == 2:
         IO.output(p3, IO.LOW)
-        IO.output(p4, IO.HIGH)
         IO.output(p5, IO.HIGH)
+        IO.output(p4, IO.HIGH)
         IO.output(p6, IO.LOW)
     elif i == 3:
         IO.output(p3, IO.HIGH)
-        IO.output(p4, IO.LOW)
         IO.output(p5, IO.LOW)
+        IO.output(p4, IO.LOW)
         IO.output(p6, IO.HIGH)
     else:
         IO.output(p3, IO.LOW)
