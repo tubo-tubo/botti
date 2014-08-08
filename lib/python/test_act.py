@@ -1,7 +1,13 @@
 #coding:utf-8 
 
-import RPi.GPIO as IO
+import os
+import sys
 import time
+if os.getlogin() == 'pi':
+    import RPi.GPIO as IO
+else:
+    sys.path.append(os.path.dirname(__file__))
+    from RpiTest import GPIO as IO
 
 p3 = 22  # pin 15 右前
 p4 = 23  # pin 16 右後ろ
