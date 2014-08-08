@@ -20,7 +20,7 @@ class gpsparser(object):
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
-        logging.info("gpsupdate:"+self.gpsdata)
+        logging.info("gpsupdate")
 
     def NMEAanAlysis(self, data):
         return pynmea2.parse(data)
