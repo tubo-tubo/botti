@@ -1,33 +1,45 @@
 #!coding:utf-8
 
 import go_GPIO
-import numpy
 import time
+import gpsnavi
 
-gps = gpsnavi.gpsparser(goal=goal)
-groundlat = gps.altitude()	#現地で計測する予定
-altave = []
-passer = []
 
-if gps.altitude >= groundlat + 50:
-	passer.append("high")
+def landing(gps, groundalt):
+    count = 0
+    while True:
+        gps.gpsupdate()
+        if count >= 3:
+            break
+        if gps.altitude() >= groundalt + 50:
+            count += 1
 
-while gps.altitude() <= groundlat + 30 and passer[0] = "high" :
-	time.sleep(0.5)
-	altave.append(gps.altitude())
+    count = 0
+    while True:
+        gps.gpsupdate()
+        if count >= 10:
+            break
+        if groundalt - 10 <= gps.altitude() <= groundalt + 10:
+            count += 1
+    time.sleep(30)
+    go_GPIO.forward(20)
 
-	if groundlat - 10 <= numpy.average(altave) <= groundlat + 10 :
-		time.sleep(30)
-		go_GPIO.forward(20)
 
-		lon = 141.24322166666667
-		lat = 43.123041666666666
-		lon1 = 139.649867
-		lat1 = 35.705385
-		#lon2 =
-		#lat2 =
-		goal = [[lon,lat]]
-		check = [[lon1,lat1]]
-		goal.extend(check)
+def travel():
+    go_GPIO.GPIO.turn()
 
-		go_GPIO.GPIO.turn()
+
+def arrive():
+    pass
+
+if __name__ == '__main__':
+    goal = []
+    goal.append([141.24322166666667, 43.123041666666666])
+    goal.append([139.649867, 35.705385])
+
+    gps = gpsnavi.gpsparser(goal=goal)
+    gps.gpsupdate()
+    groundalt = gps.altitude()  # 現地で計測する予定
+    landing(gps, groundalt)
+    travel()
+    arrive()
