@@ -24,3 +24,12 @@ class getdistance:
     def nowpos(self, value):
         self._nowpos = value
 
+    @property
+    def ratio(self):
+        return self._ratio
+    
+    @ratio.setter
+    def ratio(self, value):
+        self._ratio = value
+    
+

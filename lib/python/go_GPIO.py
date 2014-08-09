@@ -51,7 +51,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], False)
             IO.output(self.rightmotor[0], False)
             IO.output(self.rightmotor[1], True)
-            if time.time() - start >= math.fabs(azimath)/3:  # １秒で３°回転すると仮定
+            if time.time() - start >= math.fabs(azimath)/self.gof.ratio:
                 break
         time.sleep(0.01)
         logging.info("left")
@@ -63,7 +63,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], True)
             IO.output(self.rightmotor[0], True)
             IO.output(self.rightmotor[1], False)
-            if time.time() - start >= math.fabs(azimath)/3:  # １秒で３°回転すると仮定
+            if time.time() - start >= math.fabs(azimath)/self.gof.ratio:
                 break
         time.sleep(0.01)
         logging.info("right")
