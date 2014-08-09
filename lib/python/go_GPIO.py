@@ -75,24 +75,21 @@ class GPIO:  # GPIOをTurtleに
             return False
 
     def angle(self):
-        if 0 <= self.gps.goalazimath < 90 or 270 < self.gps.goalazimath <= 360 and self.y_coordinates() < self.y_coord:    #1st quadrant , 4th quadrant , south direction
-                    self.right(self.gps.goalazimath)
-        elif 0 <= self.gps.goalazimath < 90 or 270 < self.gps.goalazimath <= 360 and self.y_coordinates() > self.y_coord:   #1nd quadrant , 4rd quadrant , north direction
-                    self.left(self.gps.goalazimath)
-        elif 90 <= self.gps.goalazimath <= 270 and self.y_coordinates() < self.y_coord:     #2nd quadrant , 3rd quadrant , south direction
-                    self.left(self.gps.goalazimath)
-        elif 90 <= self.gps.goalazimath <= 270 and self.y_coordinates() > self.y_coord:     #2nd quadrant , 3rd quadrant , north direction
-                    self.right(self.gps.goalszimath)
+        self.gapazimath = self.gps.goalazimath() - self.fazimath
+        if self.gapazimath > 0:
+            self.left(self.gps.goalazimath())
+        elif gapazimath < 0 :
+            self.right(self.gps.goalszimath())
 
     def turn(self):
         while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
-            while self.gps.goaldistance > 30:
+            while self.gps.goaldistance() > 30:
                 while True:
                     self.y_coord = self.y_coordinates()
                     self.forward(50)
                     if not self._bump(self.y_coord, self.y_boordinates()):
                         break
-
+                self.fazimath = self.gps.goalazimath()
                 self.time.sleep(0.01)
                 self.angle()
                 self.time.sleep(0.01)
