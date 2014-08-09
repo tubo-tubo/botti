@@ -1,6 +1,7 @@
 #!coding:utf-8
 import os
 import sys
+import math
 if os.getlogin() == 'pi':
     import RPi.GPIO as IO
 else:
@@ -42,19 +43,27 @@ class GPIO:  # GPIOをTurtleに
         self.time.sleep(0.01)
         logging.info("back")
 
-    def left(self):
-        self.IO.output(self.leftmotor[0], True)
-        self.IO.output(self.leftmotor[1], False)
-        self.IO.output(self.rightmotor[0], False)
-        self.IO.output(self.rightmotor[1], True)
+    def left(self,azimath):
+        self.start = self.time.time()
+        while True :
+            self.IO.output(self.leftmotor[0], True)
+            self.IO.output(self.leftmotor[1], False)
+            self.IO.output(self.rightmotor[0], False)
+            self.IO.output(self.rightmotor[1], True)
+            if self.time.time() - self.start == azimath/3: #１秒で３°回転すると仮定
+                break
         self.time.sleep(0.01)
         logging.info("left")
 
-    def right(self):
-        self.IO.output(self.leftmotor[0], False)
-        self.IO.output(self.leftmotor[1], True)
-        self.IO.output(self.rightmotor[0], True)
-        self.IO.output(self.rightmotor[1], False)
+    def right(self,azimath):
+        self.start = self.time.time()
+        while True:
+            self.IO.output(self.leftmotor[0], False)
+            self.IO.output(self.leftmotor[1], True)
+            self.IO.output(self.rightmotor[0], True)
+            self.IO.output(self.rightmotor[1], False)
+            if self.time.time() - self.start == azimath/3: #１秒で３°回転すると仮定
+                break
         self.time.sleep(0.01)
         logging.info("right")
 
@@ -76,10 +85,12 @@ class GPIO:  # GPIOをTurtleに
 
     def angle(self):
         self.gapazimath = self.gps.goalazimath() - self.fazimath
-        if self.gapazimath > 0:
-            self.left(self.gps.goalazimath())
-        elif gapazimath < 0 :
-            self.right(self.gps.goalszimath())
+        if self.gapazimath > 0 :
+            self.left(math.fads(self.gps.goalazimath()-self.gapazimath))
+        elif self.gapazimath < 0 :
+            self.right(math.fads(self.gps.goalazimath()-self.gapazimath))
+        elif self.gapazimath == 0 :
+            self.right(math.fads(self.gps.goalazimath))
 
     def turn(self):
         while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
@@ -87,7 +98,7 @@ class GPIO:  # GPIOをTurtleに
                 while True:
                     self.y_coord = self.y_coordinates()
                     self.forward(50)
-                    if not self._bump(self.y_coord, self.y_boordinates()):
+                    if not self._bump(self.y_coord, self.y_coordinates()):
                         break
                 self.fazimath = self.gps.goalazimath()
                 self.time.sleep(0.01)
