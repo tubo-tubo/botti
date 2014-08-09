@@ -2,6 +2,7 @@
 import os
 import sys
 import math
+import time
 if os.getlogin() == 'pi':
     import RPi.GPIO as IO
 else:
@@ -20,51 +21,51 @@ class GPIO:  # GPIOをTurtleに
         self.gps = gps
         self.leftmotor = leftmotor
         self.rightmotor = rightmotor
-        self.IO.setmode(self.IO.BCM)
-        self.IO.setup(self.leftmotor[0], self.IO.OUT)
-        self.IO.setup(self.leftmotor[1], self.IO.OUT)
-        self.IO.setup(self.rightmotor[0], self.IO.OUT)
-        self.IO.setup(self.rightmotor[1], self.IO.OUT)
+        IO.setmode(IO.BCM)
+        IO.setup(self.leftmotor[0], IO.OUT)
+        IO.setup(self.leftmotor[1], IO.OUT)
+        IO.setup(self.rightmotor[0], IO.OUT)
+        IO.setup(self.rightmotor[1], IO.OUT)
         logging.info("GPIOInit")
 
     def forward(self):
-        self.IO.output(self.leftmotor[0], False)
-        self.IO.output(self.leftmotor[1], True)
-        self.IO.output(self.rightmotor[0], False)
-        self.IO.output(self.rightmotor[1], True)
-        self.time.sleep(0.01)
+        IO.output(self.leftmotor[0], False)
+        IO.output(self.leftmotor[1], True)
+        IO.output(self.rightmotor[0], False)
+        IO.output(self.rightmotor[1], True)
+        time.sleep(0.01)
         logging.info("Forward")
 
     def back(self):
-        self.IO.output(self.leftmotor[0], True)
-        self.IO.output(self.leftmotor[1], False)
-        self.IO.output(self.rightmotor[0], True)
-        self.IO.output(self.rightmotor[1], False)
-        self.time.sleep(0.01)
+        IO.output(self.leftmotor[0], True)
+        IO.output(self.leftmotor[1], False)
+        IO.output(self.rightmotor[0], True)
+        IO.output(self.rightmotor[1], False)
+        time.sleep(0.01)
         logging.info("back")
 
     def left(self, azimath):
-        self.start = self.time.time()
+        start = time.time()
         while True:
-            self.IO.output(self.leftmotor[0], True)
-            self.IO.output(self.leftmotor[1], False)
-            self.IO.output(self.rightmotor[0], False)
-            self.IO.output(self.rightmotor[1], True)
-            if self.time.time() - self.start == azimath/3:  # １秒で３°回転すると仮定
+            IO.output(self.leftmotor[0], True)
+            IO.output(self.leftmotor[1], False)
+            IO.output(self.rightmotor[0], False)
+            IO.output(self.rightmotor[1], True)
+            if time.time() - start >= math.fabs(azimath)/3:  # １秒で３°回転すると仮定
                 break
-        self.time.sleep(0.01)
+        time.sleep(0.01)
         logging.info("left")
 
     def right(self, azimath):
-        self.start = self.time.time()
+        start = time.time()
         while True:
-            self.IO.output(self.leftmotor[0], False)
-            self.IO.output(self.leftmotor[1], True)
-            self.IO.output(self.rightmotor[0], True)
-            self.IO.output(self.rightmotor[1], False)
-            if self.time.time() - self.start == azimath/3:  # １秒で３°回転すると仮定
+            IO.output(self.leftmotor[0], False)
+            IO.output(self.leftmotor[1], True)
+            IO.output(self.rightmotor[0], True)
+            IO.output(self.rightmotor[1], False)
+            if time.time() - start >= math.fabs(azimath)/3:  # １秒で３°回転すると仮定
                 break
-        self.time.sleep(0.01)
+        time.sleep(0.01)
         logging.info("right")
 
     def y_coordinates(self):
@@ -77,7 +78,7 @@ class GPIO:  # GPIOをTurtleに
         if before == after:
             self.back(50)
             self.left(30)
-            self.time.sleep(0.01)
+            time.sleep(0.01)
             logging.info("bomp")
             return True
         else:
@@ -101,9 +102,9 @@ class GPIO:  # GPIOをTurtleに
                     if not self._bump(self.y_coord, self.y_coordinates()):
                         break
                 self.fazimath = self.gps.goalazimath()
-                self.time.sleep(0.01)
+                time.sleep(0.01)
                 self.angle()
-                self.time.sleep(0.01)
+                time.sleep(0.01)
                 self.forward(self.gps.goaldistance())
-                self.time.sleep(0.01)
+                time.sleep(0.01)
             self.gps.goal.pop(0)
