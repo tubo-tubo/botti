@@ -42,12 +42,18 @@ def run():
     goal.append([141.24322166666667, 43.123041666666666])
     goal.append([139.649867, 35.705385])  # 現地で計測する予定
     gpsport = None
-    ratio = 3  # １秒で３°回転すると仮定
-
+    ratio = 3  #１秒で３°回転すると仮定
+    rate = 0.1 #１秒で 0.1m 前進すると仮定
     gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
+    gps.goalcalc()
     gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio)
     groundalt = gps.altitude()  # 現地で計測する予定
+    goalazimath = gps.goalazimath()
+    fazimath = gps.goalazimath()
+    gapazimath = gps.goalazimath() - fazimath
+    goalverticaldistance = gos.goalverticaldistance()
+    turn_azimath = math.fads(gps.goalazimath() - gapazimath)
     landing(gps, groundalt, gogpio)
     logging.info('landing finish')
     logging.info('travel start')
