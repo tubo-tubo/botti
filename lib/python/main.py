@@ -39,8 +39,9 @@ if __name__ == '__main__':
     logging.info('Started')
     goal = []
     goal.append([141.24322166666667, 43.123041666666666])
-    goal.append([139.649867, 35.705385])
+    goal.append([139.649867, 35.705385]) # 現地で計測する予定
     gpsport = None
+    ratio = 3 #１秒で３°回転すると仮定
 
     gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
