@@ -27,7 +27,7 @@ class GPIO:  # GPIOをTurtleに
         self.IO.setup(self.rightmotor[1], self.IO.OUT)
         logging.info("GPIOInit")
 
-    def forward(self): 
+    def forward(self):
         self.IO.output(self.leftmotor[0], False)
         self.IO.output(self.leftmotor[1], True)
         self.IO.output(self.rightmotor[0], False)
@@ -43,26 +43,26 @@ class GPIO:  # GPIOをTurtleに
         self.time.sleep(0.01)
         logging.info("back")
 
-    def left(self,azimath):
+    def left(self, azimath):
         self.start = self.time.time()
-        while True :
+        while True:
             self.IO.output(self.leftmotor[0], True)
             self.IO.output(self.leftmotor[1], False)
             self.IO.output(self.rightmotor[0], False)
             self.IO.output(self.rightmotor[1], True)
-            if self.time.time() - self.start == azimath/3: #１秒で３°回転すると仮定
+            if self.time.time() - self.start == azimath/3:  # １秒で３°回転すると仮定
                 break
         self.time.sleep(0.01)
         logging.info("left")
 
-    def right(self,azimath):
+    def right(self, azimath):
         self.start = self.time.time()
         while True:
             self.IO.output(self.leftmotor[0], False)
             self.IO.output(self.leftmotor[1], True)
             self.IO.output(self.rightmotor[0], True)
             self.IO.output(self.rightmotor[1], False)
-            if self.time.time() - self.start == azimath/3: #１秒で３°回転すると仮定
+            if self.time.time() - self.start == azimath/3:  # １秒で３°回転すると仮定
                 break
         self.time.sleep(0.01)
         logging.info("right")
@@ -85,11 +85,11 @@ class GPIO:  # GPIOをTurtleに
 
     def angle(self):
         self.gapazimath = self.gps.goalazimath() - self.fazimath
-        if self.gapazimath > 0 :
+        if self.gapazimath > 0:
             self.left(math.fads(self.gps.goalazimath()-self.gapazimath))
-        elif self.gapazimath < 0 :
+        elif self.gapazimath < 0:
             self.right(math.fads(self.gps.goalazimath()-self.gapazimath))
-        elif self.gapazimath == 0 :
+        elif self.gapazimath == 0:
             self.right(math.fads(self.gps.goalazimath))
 
     def turn(self):
