@@ -35,6 +35,13 @@ def arrive(gps, gogpio):
     pass
 
 
+def gpscheck(gps):
+    while True:
+        gps.gpsupdate()
+        if gps.sat_receivejudge():
+            break
+
+
 def run():
     logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
     logging.info('Started')
@@ -47,6 +54,7 @@ def run():
     gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
     gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio)
+    gpscheck(gps)
     groundalt = gps.altitude()  # 現地で計測する予定
     landing(gps, groundalt, gogpio)
     logging.info('landing finish')

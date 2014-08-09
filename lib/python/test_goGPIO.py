@@ -1,6 +1,7 @@
-#coding:utf-8
+#!coding:utf-8
 import unittest
 import go_GPIO
+import gpsnavi
 import time
 
 
@@ -11,7 +12,10 @@ class testgo_GPIO(unittest.TestCase):
         goal = []
         goal.append([141.24322166666667, 43.123041666666666])
         goal.append([139.649867, 35.705385])
-        self.go = go_GPIO.GPIO(leftmotor=leftmotor, rightmotor=rightmotor, goalpos=goal)
+        gps = gpsnavi.gpsparser(goal=goal, debugmode=True)
+        gps.gpsupdate(debuggpsvalue='$GPGGA,035653.00,4307.5613,N,14114.6470,E,1,00,0.0,-0.2,M,0.0,M,,*70')
+        gps.goalcalc()
+        self.go = go_GPIO.GPIO(leftmotor=leftmotor, rightmotor=rightmotor, gps=gps,  goalpos=goal)
 
     def test_forward(self):
         print("test_forward start")
