@@ -15,12 +15,29 @@ class testgo_GPIO(unittest.TestCase):
 
     def test_forward(self):
         print("test_forward start")
-        self.go.forward()
+        start = time.time()
+        self.go.forward(3)
+        print(int(time.time()-start)//1, 3//self.go.rate)
+        start = time.time()
+        self.go.forward(2.0)
+        print(int(time.time()-start)//1, 2//self.go.rate)
+        start = time.time()
+        self.go.forward(-1)
+        print(int(time.time()-start)//1, 1//self.go.rate)
         print("test_forward end")
 
     def test_back(self):
         print("test_back start")
-        self.go.back()
+        start = time.time()
+        self.go.back(3)
+        start = time.time()
+        print(int(time.time()-start)//1, 3//self.go.rate)
+        start = time.time()
+        self.go.back(2.0)
+        print(int(time.time()-start)//1, 2//self.go.rate)
+        start = time.time()
+        self.go.back(-1)
+        print(int(time.time()-start)//1, 1//self.go.rate)
         print("test_back end")
 
     def test_left(self):
