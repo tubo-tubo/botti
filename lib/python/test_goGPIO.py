@@ -11,7 +11,7 @@ class testgo_GPIO(unittest.TestCase):
         goal = []
         goal.append([141.24322166666667, 43.123041666666666])
         goal.append([139.649867, 35.705385])
-        self.go = go_GPIO.GPIO(leftmotor=leftmotor, rightmotor=rightmotor, goalpos=goal)
+        self.go = go_GPIO.GPIO(leftmotor=leftmotor, rightmotor=rightmotor, goalpos=goal,ratio=20,rate=20)
 
     def test_forward(self):
         print("test_forward start")
@@ -30,7 +30,6 @@ class testgo_GPIO(unittest.TestCase):
         print("test_back start")
         start = time.time()
         self.go.back(3)
-        start = time.time()
         print(int(time.time()-start)//1, 3//self.go.rate)
         start = time.time()
         self.go.back(2.0)

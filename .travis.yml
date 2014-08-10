@@ -17,6 +17,8 @@ script:
     - coverage -a ./lib/python/test_gpsnavi.py
     - python ./lib/python/test_gpio.py
     - coverage -a ./lib/python/test_gpio.py
+    - python ./lib/python/test_goGPIO.py
+    - coverage -a ./lib/python/test_goGPIO.py
 notifications:
     webhooks:
         urls:
