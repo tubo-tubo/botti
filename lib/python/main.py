@@ -35,7 +35,7 @@ def arrive(gps, gogpio):
     pass
 
 
-def run():
+def run(debugmode=None):
     logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
     logging.info('Started')
     goal = []
@@ -47,7 +47,7 @@ def run():
     gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
     gps.goalcalc()
-    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio)
+    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio, rate=rate)
     groundalt = gps.altitude()  # 現地で計測する予定
     goalazimath = gps.goalazimath()
     fazimath = gps.goalazimath()
@@ -62,5 +62,6 @@ def run():
     logging.info('arrive start')
     arrive(gogpio)
     logging.info('Finished')
+
 if __name__ == '__main__':
     run()
