@@ -78,15 +78,10 @@ class GPIO:  # GPIOをTurtleに
         time.sleep(0.01)
         logging.info("right")
 
-    def y_coordinates(self):
-        self.goalverticaldistance = goalverticaldistance
-        logging.info("y_coordinates:"+self.goalverticaldistance)
-        return self.goalverticaldistance
-
-    def turn_azimath(self):
-        self.turn_azimath = turn_azimath
-        logging.info("turn_azimath"+self.turn_azimath)
-        return self.turn_azimath
+    def goaldistance(self):
+        self.goaldistance = goaldistance
+        logging.info("goaldistance:"+self.goaldistance)
+        return self.goaldistance
 
     def _bump(self, before, after):
         if before == after:
@@ -100,9 +95,9 @@ class GPIO:  # GPIOをTurtleに
 
     def first(self):
         while True:
-            self.y_coord = self.y_coordinates()
+            self.y_coord = self.goaldistance()
             self.forward(5)
-            if not self._bump(self.y_coord, self.y_coordinates()):
+            if not self._bump(self.y_coord, self.goaldistance()):
                 break
 
     def angle(self):
@@ -113,7 +108,6 @@ class GPIO:  # GPIOをTurtleに
             self.right(math.fads(self.goalazimath-self.gapazimath))
         elif self.gapazimath == 0:
             self.right(math.fads(self.goalazimath))
-        self.turn_azimath()
 
     def turn(self):
         while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
