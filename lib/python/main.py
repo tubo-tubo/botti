@@ -47,7 +47,7 @@ def run(debugmode=None):
     gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
     gps.gpsupdate()
     gps.goalcalc()
-    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio)
+    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio, rate=rate)
     groundalt = gps.altitude()  # 現地で計測する予定
     goalazimath = gps.goalazimath()
     fazimath = gps.goalazimath()
