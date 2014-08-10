@@ -35,7 +35,7 @@ def arrive(gps, gogpio):
     pass
 
 
-def run():
+def run(debugmode=None):
     logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
     logging.info('Started')
     goal = []
@@ -62,5 +62,6 @@ def run():
     logging.info('arrive start')
     arrive(gogpio)
     logging.info('Finished')
+
 if __name__ == '__main__':
     run()
