@@ -30,7 +30,6 @@ class testgo_GPIO(unittest.TestCase):
         print("test_back start")
         start = time.time()
         self.go.back(3)
-        start = time.time()
         print(int(time.time()-start)//1, 3//self.go.rate)
         start = time.time()
         self.go.back(2.0)

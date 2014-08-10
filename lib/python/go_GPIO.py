@@ -37,7 +37,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], True)
             IO.output(self.rightmotor[0], False)
             IO.output(self.rightmotor[1], True)
-            if self.time.time() - start >= math.febs(distance)/self.rate:
+            if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
         logging.info("Forward")
@@ -49,7 +49,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], False)
             IO.output(self.rightmotor[0], True)
             IO.output(self.rightmotor[1], False)
-            if self.time.time() - start >= math.febs(distance)/self.rate:
+            if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
         logging.info("back")
