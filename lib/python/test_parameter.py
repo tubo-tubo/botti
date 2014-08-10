@@ -9,7 +9,7 @@ class testParameter(unittest.TestCase):
 	lat = 43.123041666666666
 	goal = [[lon, lat]]
 	gps = gpsnavi.gpsparser(goal=goal)
- 	goalverticaldistance = gos.goalverticaldistance()
+ 	goalverticaldistance = gps.goalverticaldistance()
  	fazimath = gps.goalazimath()
  	gapazimath = gps.goalazimath() - fazimath
  	turn_azimath = math.fads(gps.goalazimath() - gapazimath)
