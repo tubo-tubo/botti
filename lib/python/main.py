@@ -10,8 +10,9 @@ import math
 
 class Main(object):
 
-    def __init__(self, groundalt=10, gpsport=None, goal=[[141.24966333333333, 43.13460166666667],[141.24322166666667, 43.123041666666666]], ratio=30.0, rate=20):
+    def __init__(self, groundalt=0, gpsport=None, maxalt=80, goal=[[141.24966333333333, 43.13460166666667],[141.24322166666667, 43.123041666666666]], ratio=30.0, rate=20):
         self.gpsdebugvalue = None
+        self.maxalt = maxalt
         self.goal = goal
         self.gpsport = gpsport
         self.groundalt = groundalt  # 現地で計測する予定
@@ -31,16 +32,15 @@ class Main(object):
     def landing(self):
         count = 0
         while True:
-
             if self._gpsdebugvalue is None:
                 self.gps.gpsupdate()
             else:
                 self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
             if count >= 3:
                 break
-            if self.gps.altitude() >= self.groundalt + 50:
+            print(self.gps.altitude())
+            if self.gps.altitude() >= self.groundalt + self.maxalt:
                 count += 1
-    
         count = 0
         while True:
             if self._gpsdebugvalue is None:
@@ -49,7 +49,8 @@ class Main(object):
                 self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
             if count >= 10:
                 break
-            if self.groundalt - 10 <= self.gps.altitude() <= self.groundalt + 10:
+            print(self.gps.altitude())
+            if self.groundalt - 10 <= self.gps.altitude() <= self.groundalt + 30:
                 count += 1
         time.sleep(30)
         self.gogpio.forward(20)
@@ -99,7 +100,7 @@ class Main(object):
         logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
         logging.info('Started')
         self.startjudge()
-        #self.landing()
+        self.landing()
         logging.info('landing finish')
         logging.info('travel start')
         self.travel()
