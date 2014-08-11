@@ -67,7 +67,8 @@ class Main(object):
             self.gps.goalcalc()
             goalazimath = self.gps.goalazimath()
             fazimath = self.gps.goalazimath()
-
+            goaldistance1 = self.gps.goaldistance()
+            self.gogpio.forward(5)
             if self._gpsdebugvalue is None:
                 self.gps.gpsupdate()
             else:
@@ -77,6 +78,8 @@ class Main(object):
             print(self.gps.goalazimath())
             print(fazimath)
             gapazimath = self.gps.goalazimath() - fazimath
+            if self.gogpio.first(goaldistance1,self.gps.goaldistance()):
+                self.gogpio.back(10)
             self.gogpio.turn(gapazimath)
     
     

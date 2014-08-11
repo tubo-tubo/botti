@@ -92,12 +92,11 @@ class GPIO:  # GPIOをTurtleに
         else:
             return False
 
-    def first(self):
-        while True:
-            self.y_coord = self.goaldistance()
-            self.forward(5)
-            if not self._bump(self.y_coord, self.goaldistance()):
-                break
+    def first(self, distance1, distance2):
+        if distance1 == distance2:
+            return False
+        else:
+            return True
 
     def angle(self):
         print(self.gapazimath)
