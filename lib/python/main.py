@@ -62,18 +62,20 @@ class Main(object):
             if self._gpsdebugvalue is None:
                 self.gps.gpsupdate()
             else:
-                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+                gpsval = self._gpsdebugvalue.pop(0)
+                self.gps.gpsupdate(debuggpsvalue=gpsval)
             self.gps.goalcalc()
             goalazimath = self.gps.goalazimath()
             fazimath = self.gps.goalazimath()
 
-            print(self.gps.latitude())
-            print(self.gps.longitude())
-            print(self.gps.goaldistance())
             if self._gpsdebugvalue is None:
                 self.gps.gpsupdate()
             else:
-                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+                gpsval = self._gpsdebugvalue.pop(0)
+                self.gps.gpsupdate(debuggpsvalue=gpsval)
+            self.gps.goalcalc()
+            print(self.gps.goalazimath())
+            print(fazimath)
             gapazimath = self.gps.goalazimath() - fazimath
             self.gogpio.turn(gapazimath)
     

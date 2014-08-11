@@ -46,7 +46,6 @@ class gpsparser(object):
         return float(self.gpsdata.longitude)
 
     def sat_receivejudge(self):
-        print(int(self.gpsdata.num_sats))
         if int(self.gpsdata.num_sats) >= 4:
             logging.info("OKGpsnum:"+str(self.gpsdata.num_sats))
             return True
