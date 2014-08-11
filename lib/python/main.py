@@ -5,63 +5,104 @@ import time
 import gpsnavi
 import logging
 import datetime
+import math
 
 
-def landing(gps, groundalt, gogpio):
-    count = 0
-    while True:
-        gps.gpsupdate()
-        if count >= 3:
-            break
-        if gps.altitude() >= groundalt + 50:
-            count += 1
+class Main(object):
 
-    count = 0
-    while True:
-        gps.gpsupdate()
-        if count >= 10:
-            break
-        if groundalt - 10 <= gps.altitude() <= groundalt + 10:
-            count += 1
-    time.sleep(30)
-    gogpio.forward(20)
+    def __init__(self, groundalt=10, gpsport=None, goal=[[141.24966333333333, 43.13460166666667],[141.24322166666667, 43.123041666666666]], ratio=30.0, rate=20):
+        self.gpsdebugvalue = None
+        self.goal = goal
+        self.gpsport = gpsport
+        self.groundalt = groundalt  # 現地で計測する予定
+        self.ratio = ratio  #１秒で３°回転すると仮定
+        self.rate = rate #１秒で 0.1m 前進すると仮定
+        self.gps = gpsnavi.gpsparser(portname=self.gpsport, goal=self.goal)
+        self.gogpio = go_GPIO.GPIO(goalpos=self.goal, gps=self.gps, ratio=self.ratio, rate=self.rate)
 
+    @property
+    def gpsdebugvalue(self):
+        return self._gpsdebugvalue
 
-def travel(gps, gogpio):
-    gogpio.turn()
+    @gpsdebugvalue.setter
+    def gpsdebugvalue(self, val):
+        self._gpsdebugvalue = val
 
+    def landing(self):
+        count = 0
+        while True:
 
-def arrive(gps, gogpio):
-    pass
+            if self._gpsdebugvalue is None:
+                self.gps.gpsupdate()
+            else:
+                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+            if count >= 3:
+                break
+            if self.gps.altitude() >= self.groundalt + 50:
+                count += 1
+    
+        count = 0
+        while True:
+            if self._gpsdebugvalue is None:
+                self.gps.gpsupdate()
+            else:
+                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+            if count >= 10:
+                break
+            if self.groundalt - 10 <= self.gps.altitude() <= self.groundalt + 10:
+                count += 1
+        time.sleep(30)
+        self.gogpio.forward(20)
+    
+    
+    def travel(self):
+        while True:
+            if len(self.gps.goal) == 0:
+                break
+            if self._gpsdebugvalue is None:
+                self.gps.gpsupdate()
+            else:
+                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+            self.gps.goalcalc()
+            goalazimath = self.gps.goalazimath()
+            fazimath = self.gps.goalazimath()
 
-
-def run(debugmode=None):
-    logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
-    logging.info('Started')
-    goal = []
-    goal.append([141.24322166666667, 43.123041666666666])
-    goal.append([139.649867, 35.705385])  # 現地で計測する予定
-    gpsport = None
-    ratio = 3  #１秒で３°回転すると仮定
-    rate = 0.1 #１秒で 0.1m 前進すると仮定
-    gps = gpsnavi.gpsparser(portname=gpsport, goal=goal)
-    gps.gpsupdate()
-    gps.goalcalc()
-    gogpio = go_GPIO.GPIO(goalpos=goal, gps=gps, ratio=ratio, rate=rate)
-    groundalt = gps.altitude()  # 現地で計測する予定
-    goalazimath = gps.goalazimath()
-    fazimath = gps.goalazimath()
-    gapazimath = gps.goalazimath() - fazimath
-    goalverticaldistance = gos.goalverticaldistance()
-    turn_azimath = math.fads(gps.goalazimath() - gapazimath)
-    landing(gps, groundalt, gogpio)
-    logging.info('landing finish')
-    logging.info('travel start')
-    travel(gps, gogpio)
-    logging.info('travel finish')
-    logging.info('arrive start')
-    arrive(gogpio)
-    logging.info('Finished')
+            print(self.gps.latitude())
+            print(self.gps.longitude())
+            print(self.gps.goaldistance())
+            if self._gpsdebugvalue is None:
+                self.gps.gpsupdate()
+            else:
+                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+            gapazimath = self.gps.goalazimath() - fazimath
+            self.gogpio.turn(gapazimath)
+    
+    
+    def arrive(self):
+        pass
+    
+    def startjudge(self):
+        while True:
+            if self._gpsdebugvalue is None:
+                self.gps.gpsupdate()
+            else:
+                self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
+            if self.gps.sat_receivejudge():
+                break
+    
+    def run(self):
+        logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
+        logging.info('Started')
+        self.startjudge()
+        #self.landing()
+        logging.info('landing finish')
+        logging.info('travel start')
+        self.travel()
+        logging.info('travel finish')
+        logging.info('arrive start')
+        self.arrive()
+        logging.info('Finished')
 
 if __name__ == '__main__':
-    run()
+    main = Main()
+    main.run()
