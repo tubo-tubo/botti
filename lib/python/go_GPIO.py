@@ -94,9 +94,9 @@ class GPIO:  # GPIOをTurtleに
 
     def first(self, distance1, distance2):
         if distance1 == distance2:
-            return False
-        else:
             return True
+        else:
+            return False
 
     def angle(self):
         print(self.gapazimath)
