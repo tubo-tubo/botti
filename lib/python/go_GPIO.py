@@ -79,9 +79,8 @@ class GPIO:  # GPIOをTurtleに
         logging.info("right")
 
     def goaldistance(self):
-        self.goaldistance = goaldistance
-        logging.info("goaldistance:"+self.goaldistance)
-        return self.goaldistance
+        logging.info("goaldistance:"+str(self.gps.goaldistance()))
+        return self.gps.goaldistance()
 
     def _bump(self, before, after):
         if before == after:
@@ -101,30 +100,23 @@ class GPIO:  # GPIOをTurtleに
                 break
 
     def angle(self):
-        self.gapazimath = gapazimath
         if self.gapazimath > 0:
-            self.left(math.fads(self.goalazimath-self.gapazimath))
+            self.left(math.fabs(self.goalazimath))
+            print("left")
         elif self.gapazimath < 0:
-            self.right(math.fads(self.goalazimath-self.gapazimath))
-        elif self.gapazimath == 0:
-            self.right(math.fads(self.goalazimath))
+            self.right(math.fabs(self.goalazimath))
+            print("right")
 
-    def turn(self):
-        while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
-            while self.gps.goaldistance() >= 5:
-                self.first()
-                self.fazimath = fazimath
-                self.time.sleep(0.01)
-                self.angle()
-                self.time.sleep(0.01)
-                self.forward(8)
-            
-            while 5 > self.gps.goaldistance() > 3:
-                self.first()
-                self.fazimath = fazimath
-                self.time.sleep(0.01)
-                self.angle()
-                self.time.sleep(0.01)
-                self.forward(1)
-
+    def turn(self, gapazimath):
+        self.gapazimath = gapazimath
+        print(self.gps.goaldistance())
+        if self.gps.goaldistance() >= 10:
+            #self.first()
+            self.angle()
+            self.forward(8)
+        
+        if 10 > self.gps.goaldistance() > 3:
+            #self.first()
+            self.angle()
+            self.forward(1)
             self.gps.goal.pop(0)

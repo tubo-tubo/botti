@@ -17,7 +17,7 @@ class gpsparser(object):
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
-            readline = self.ser.readline()
+            readline = self.ser.readline().split('\n')[0]
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
@@ -46,6 +46,7 @@ class gpsparser(object):
         return float(self.gpsdata.longitude)
 
     def sat_receivejudge(self):
+        print(int(self.gpsdata.num_sats))
         if int(self.gpsdata.num_sats) >= 4:
             logging.info("OKGpsnum:"+str(self.gpsdata.num_sats))
             return True

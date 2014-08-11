@@ -12,13 +12,10 @@ install:
     - travis_retry pip install pyserial pynmea2 pyproj numpy pillow mox3 coverage
 script:
     - python ./lib/python/test_flagjudge.py
-    - coverage -a ./lib/python/test_flagjudge.py
     - python ./lib/python/test_gpsnavi.py
-    - coverage -a ./lib/python/test_gpsnavi.py
     - python ./lib/python/test_gpio.py
-    - coverage -a ./lib/python/test_gpio.py
     - python ./lib/python/test_goGPIO.py
-    - coverage -a ./lib/python/test_goGPIO.py
+    - python ./lib/python/test_main.py
 notifications:
     webhooks:
         urls:
