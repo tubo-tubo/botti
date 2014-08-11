@@ -100,16 +100,16 @@ class GPIO:  # GPIOをTurtleに
                 break
 
     def angle(self):
+        print(self.gapazimath)
         if self.gapazimath > 0:
-            self.left(math.fabs(self.goalazimath))
+            self.left(math.fabs(self.gapazimath))
             print("left")
         elif self.gapazimath < 0:
-            self.right(math.fabs(self.goalazimath))
+            self.right(math.fabs(self.gapazimath))
             print("right")
 
     def turn(self, gapazimath):
         self.gapazimath = gapazimath
-        print(self.gps.goaldistance())
         if self.gps.goaldistance() >= 10:
             #self.first()
             self.angle()

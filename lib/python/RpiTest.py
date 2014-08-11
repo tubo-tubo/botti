@@ -11,7 +11,9 @@ class GPIO:
         pass
 
     def setup(ionum, INOUT):
-        print(str(ionum)+","+str(INOUT))
+        pass
+        #print(str(ionum)+","+str(INOUT))
 
     def output(ionum, state):
-        print(str(ionum)+","+str(state))
+        pass
+        #print(str(ionum)+","+str(state))
