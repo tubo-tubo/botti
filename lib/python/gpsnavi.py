@@ -18,7 +18,7 @@ class gpsparser(object):
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
-            readline = self.str(self.ser.readline(), 'utf-8').split('\r')[0]
+            readline = str(self.ser.readline(), 'utf-8').split('\r')[0]
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
