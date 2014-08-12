@@ -10,11 +10,11 @@ import logging
 
 class gpsparser(object):
 
-    def __init__(self, portname=None, goal=[[138.75665666666666, 35.68582166666667]], debugmode=False):
+    def __init__(self, portname=None, baudrate=38400, goal=[[138.75665666666666, 35.68582166666667]], debugmode=False):
         self.debugmode = debugmode
         self.goal = goal
         if portname is not None:
-            self.ser = serial.Serial(port=portname)
+            self.ser = serial.Serial(port=portname, baudrate=baudrate)
             logging.info("open SerialPort")
 
     def gpsupdate(self, debuggpsvalue=None):

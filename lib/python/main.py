@@ -10,15 +10,16 @@ import math
 
 class Main(object):
 
-    def __init__(self, groundalt=0, gpsport=None, maxalt=80, goal=[[141.24966333333333, 43.13460166666667],[141.24322166666667, 43.123041666666666]], ratio=30.0, rate=20):
+    def __init__(self, groundalt=0, gpsport=None, gpsbaudrate=38400, maxalt=80, goal=[[141.24966333333333, 43.13460166666667],[141.24322166666667, 43.123041666666666]], ratio=30.0, rate=20):
         self.gpsdebugvalue = None
         self.maxalt = maxalt
         self.goal = goal
         self.gpsport = gpsport
+        self.gpsbaudrate = gpsbaudrate
         self.groundalt = groundalt  # 現地で計測する予定
         self.ratio = ratio  #１秒で３°回転すると仮定
         self.rate = rate #１秒で 0.1m 前進すると仮定
-        self.gps = gpsnavi.gpsparser(portname=self.gpsport, goal=self.goal)
+        self.gps = gpsnavi.gpsparser(portname=self.gpsport, goal=self.goal, baudrate=self.gpsbaudrate)
         self.gogpio = go_GPIO.GPIO(goalpos=self.goal, gps=self.gps, ratio=self.ratio, rate=self.rate)
 
     @property
@@ -110,5 +111,5 @@ class Main(object):
         logging.info('Finished')
 
 if __name__ == '__main__':
-    main = Main()
+    main = Main(gpsport='/dev/ttyAMA0')
     main.run()
