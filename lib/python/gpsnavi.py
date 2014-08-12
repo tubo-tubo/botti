@@ -3,14 +3,13 @@
 import serial
 import math
 import pynmea2
-import pynmea2
 from pyproj import Geod
 import logging
 
 
 class gpsparser(object):
 
-    def __init__(self, portname=None, baudrate=38400, goal=[[138.75665666666666, 35.68582166666667]], debugmode=False):
+    def __init__(self, portname=None, baudrate=9600, goal=[[138.75665666666666, 35.68582166666667]], debugmode=False):
         self.debugmode = debugmode
         self.goal = goal
         if portname is not None:
@@ -19,7 +18,7 @@ class gpsparser(object):
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
-            readline = self.str(ser.readline(),'utf-8').split('\r')[0]
+            readline = str(self.ser.readline(), 'utf-8').split('\r')[0]
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
