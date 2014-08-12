@@ -15,7 +15,7 @@ import logging
 
 class GPIO:  # GPIOをTurtleに
 
-    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None, ratio=3):
+    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None, ratio=3, rate=0.1):
         gof = go_f.getdistance()
         gof.goal = goalpos
         self.gps = gps
@@ -37,7 +37,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], True)
             IO.output(self.rightmotor[0], False)
             IO.output(self.rightmotor[1], True)
-            if self.time.time() - start >= math.febs(distance)/self.rate:
+            if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
         logging.info("Forward")
@@ -49,7 +49,7 @@ class GPIO:  # GPIOをTurtleに
             IO.output(self.leftmotor[1], False)
             IO.output(self.rightmotor[0], True)
             IO.output(self.rightmotor[1], False)
-            if self.time.time() - start >= math.febs(distance)/self.rate:
+            if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
         logging.info("back")
@@ -78,15 +78,9 @@ class GPIO:  # GPIOをTurtleに
         time.sleep(0.01)
         logging.info("right")
 
-    def y_coordinates(self):
-        self.goalverticaldistance = goalverticaldistance
-        logging.info("y_coordinates:"+self.goalverticaldistance)
-        return self.goalverticaldistance
-
-    def turn_azimath(self):
-        self.turn_azimath = turn_azimath
-        logging.info("turn_azimath"+self.turn_azimath)
-        return self.turn_azimath
+    def goaldistance(self):
+        logging.info("goaldistance:"+str(self.gps.goaldistance()))
+        return self.gps.goaldistance()
 
     def _bump(self, before, after):
         if before == after:
@@ -98,39 +92,30 @@ class GPIO:  # GPIOをTurtleに
         else:
             return False
 
-    def first(self):
-        while True:
-            self.y_coord = self.y_coordinates()
-            self.forward(5)
-            if not self._bump(self.y_coord, self.y_coordinates()):
-                break
+    def first(self, distance1, distance2):
+        if distance1 == distance2:
+            return True
+        else:
+            return False
 
     def angle(self):
-        self.gapazimath = gapazimath
+        print(self.gapazimath)
         if self.gapazimath > 0:
-            self.left(math.fads(self.goalazimath-self.gapazimath))
+            self.left(math.fabs(self.gapazimath))
+            print("left")
         elif self.gapazimath < 0:
-            self.right(math.fads(self.goalazimath-self.gapazimath))
-        elif self.gapazimath == 0:
-            self.right(math.fads(self.goalazimath))
-        self.turn_azimath()
+            self.right(math.fabs(self.gapazimath))
+            print("right")
 
-    def turn(self):
-        while len(self.gps.goal) > 0:  # If "len" is 0,roba is stop.
-            while self.gps.goaldistance() >= 5:
-                self.first()
-                self.fazimath = fazimath
-                self.time.sleep(0.01)
-                self.angle()
-                self.time.sleep(0.01)
-                self.forward(8)
-            
-            while 5 > self.gps.goaldistance() > 3:
-                self.first()
-                self.fazimath = fazimath
-                self.time.sleep(0.01)
-                self.angle()
-                self.time.sleep(0.01)
-                self.forward(1)
-
+    def turn(self, gapazimath):
+        self.gapazimath = gapazimath
+        if self.gps.goaldistance() >= 10:
+            #self.first()
+            self.angle()
+            self.forward(8)
+        
+        if 10 > self.gps.goaldistance() > 3:
+            #self.first()
+            self.angle()
+            self.forward(1)
             self.gps.goal.pop(0)

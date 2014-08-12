@@ -3,6 +3,7 @@
 import serial
 import math
 import pynmea2
+import pynmea2
 from pyproj import Geod
 import logging
 
@@ -17,8 +18,8 @@ class gpsparser(object):
             logging.info("open SerialPort")
 
     def gpsupdate(self, debuggpsvalue=None):
-        if self.debugmode is False and debuggpsvalue is None:
-            readline = self.ser.readline()
+        if debuggpsvalue is None:
+            readline = self.ser.readline().split('\n')[0]
             self.gpsdata = self.NMEAanAlysis(readline)
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
@@ -47,15 +48,17 @@ class gpsparser(object):
         return float(self.gpsdata.longitude)
 
     def sat_receivejudge(self):
-        if int(self.gpsdata.num_sats) >= 4:
+        if int(self.gpsdata.num_sats) >= 3:
             logging.info("OKGpsnum:"+str(self.gpsdata.num_sats))
+            print("OKGpsnum:"+str(self.gpsdata.num_sats))
             return True
         else:
             logging.info("NoGpsnum:"+str(self.gpsdata.num_sats))
+            print("NoGpsnum:"+str(self.gpsdata.num_sats))
             return False
 
     def altitude(self):
-        return float(self.gpsdata.altitude)
+        return float(self.gpsdata.geo_sep)
 
     def goalcalc(self):
         nowpos = [self.longitude(), self.latitude()]
