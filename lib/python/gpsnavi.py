@@ -18,11 +18,16 @@ class gpsparser(object):
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
+            self.ser.flushInput()
+            self.ser.flushOutput()
             readline = str(self.ser.readline(), 'utf-8').split('\r')[0]
             self.gpsdata = self.NMEAanAlysis(readline)
+            self.ser.flushInput()
+            self.ser.flushOutput()
         else:
             self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
         logging.info("gpsupdate")
+        logging.info(self.gpsdata)
 
     def NMEAanAlysis(self, data):
         return pynmea2.parse(data)
