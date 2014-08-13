@@ -15,19 +15,22 @@ class gpsparser(object):
         if portname is not None:
             self.ser = serial.Serial(port=portname, baudrate=baudrate)
             logging.info("open SerialPort")
+            self.ser.flushInput()
+            self.ser.flushOutput()
+            read = self.ser.readline()
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
             self.ser.flushInput()
             self.ser.flushOutput()
             readline = str(self.ser.readline(), 'utf-8').split('\r')[0]
-            self.gpsdata = self.NMEAanAlysis(readline)
             self.ser.flushInput()
             self.ser.flushOutput()
         else:
-            self.gpsdata = self.NMEAanAlysis(debuggpsvalue)
+            readline = debuggpsvalue
+        logging.info(readline)
+        self.gpsdata = self.NMEAanAlysis(readline)
         logging.info("gpsupdate")
-        logging.info(self.gpsdata)
 
     def NMEAanAlysis(self, data):
         return pynmea2.parse(data)
