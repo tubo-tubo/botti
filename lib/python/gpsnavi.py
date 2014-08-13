@@ -28,7 +28,7 @@ class gpsparser(object):
             self.ser.flushOutput()
         else:
             readline = debuggpsvalue
-        logging.info(self.gpsdata)
+        logging.info(readline)
         self.gpsdata = self.NMEAanAlysis(readline)
         logging.info("gpsupdate")
 
