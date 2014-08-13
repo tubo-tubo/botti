@@ -15,6 +15,9 @@ class gpsparser(object):
         if portname is not None:
             self.ser = serial.Serial(port=portname, baudrate=baudrate)
             logging.info("open SerialPort")
+            self.ser.flushInput()
+            self.ser.flushOutput()
+            read = self.ser.readline()
 
     def gpsupdate(self, debuggpsvalue=None):
         if debuggpsvalue is None:
