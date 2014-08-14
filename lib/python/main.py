@@ -85,9 +85,10 @@ class Main(object):
 
     def arrive(self):
         for i in range(0, 360, 5):
-            fj = flagjudge.flagcapture()
-            fj.capture()
-            logging.info(fj.JudgeGoal())
+            cap = flagjudge.flagcapture()
+            cap.capture()
+            direction, count = cap.judge(selectcolor='red')
+            logging.info(str(cap.imagename)+":direction:"+str(direction)+"count:"+str(count))
             self.gogpio.left(5)
 
     def startjudge(self):
@@ -112,5 +113,5 @@ class Main(object):
         logging.info('Finished')
 
 if __name__ == '__main__':
-    main = Main(gpsport='/dev/ttyAMA0')
+    main = Main(gpsport='/dev/ttyAMA0', goal=[[141.24966333333333, 43.13460166666667]])
     main.run()
