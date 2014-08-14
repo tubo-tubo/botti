@@ -113,5 +113,5 @@ class Main(object):
         logging.info('Finished')
 
 if __name__ == '__main__':
-    main = Main(gpsport='/dev/ttyAMA0', goal=[[141.24966333333333, 43.13460166666667]])
+    main = Main(gpsport='/dev/ttyAMA0', goal=[[141.24966333333333, 43.13460166666667]], ratio=96.0, rate=0.0164)
     main.run()
