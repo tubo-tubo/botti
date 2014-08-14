@@ -9,7 +9,7 @@ import datetime
 
 class Main(object):
 
-    def __init__(self, groundalt=0, gpsport=None, gpsbaudrate=9600, maxalt=80, goal=[[139.9873791954023, 40.14224106321837], ratio=96.0, rate=0.0164):
+    def __init__(self, groundalt=0, gpsport=None, gpsbaudrate=9600, maxalt=80, goal=[139.9873791954023, 40.14224106321837], ratio=96.0, rate=0.0164):
         logging.basicConfig(format='%(asctime)s %(message)s', filename="botti"+str(time.strftime('%H-%M-%S', datetime.datetime.now().timetuple()))+'.log', level=logging.INFO)
         self.gpsdebugvalue = None
         self.maxalt = maxalt
