@@ -85,7 +85,10 @@ class Main(object):
             cap = flagjudge.flagcapture()
             cap.capture()
             direction, count = cap.judge(selectcolor='red')
-            logging.info(str(cap.imagename)+":direction:"+str(direction)+"count:"+str(count))
+            if int(count) >= 300:
+                logging.info("Found:"+str(cap.imagename)+":direction:"+str(direction)+"count:"+str(count))
+            else:
+                logging.info("NotFound:"+str(cap.imagename)+":direction:"+str(direction)+"count:"+str(count))
             self.gogpio.left(5)
 
     def startjudge(self):
