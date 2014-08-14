@@ -113,5 +113,6 @@ class Main(object):
         logging.info('Finished')
 
 if __name__ == '__main__':
+    print("main.pyExecute")
     main = Main(gpsport='/dev/ttyAMA0', goal=[[141.24966333333333, 43.13460166666667]], groundalt=36.7, maxalt=100.0, ratio=96.0, rate=0.0164)
     main.run()
