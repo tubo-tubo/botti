@@ -15,7 +15,7 @@ import logging
 
 class GPIO:  # GPIOをTurtleに
 
-    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None, ratio=3, rate=0.1):
+    def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None, ratio=96, rate=0.0164):
         gof = go_f.getdistance()
         gof.goal = goalpos
         self.gps = gps
@@ -78,6 +78,13 @@ class GPIO:  # GPIOをTurtleに
         time.sleep(0.01)
         logging.info("right")
 
+    def stop(self):
+        IO.output(self.leftmotor[0], False)
+        IO.output(self.leftmotor[1], False)
+        IO.output(self.rightmotor[0], False)
+        IO.output(self.rightmotor[1], False)
+        time.sleep(0.01)
+
     def goaldistance(self):
         logging.info("goaldistance:"+str(self.gps.goaldistance()))
         return self.gps.goaldistance()
@@ -113,9 +120,11 @@ class GPIO:  # GPIOをTurtleに
             #self.first()
             self.angle()
             self.forward(8)
+            self.stop()
         
         if 10 > self.gps.goaldistance() > 3:
             #self.first()
             self.angle()
             self.forward(1)
             self.gps.goal.pop(0)
+            self.stop()
