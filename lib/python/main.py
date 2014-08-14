@@ -41,7 +41,7 @@ class Main(object):
             if count >= 3:
                 break
             print(self.gps.altitude())
-            if self.gps.altitude() >= self.groundalt + self.maxalt:
+            if self.gps.altitude() >= self.maxalt:
                 count += 1
         count = 0
         while True:
@@ -51,7 +51,6 @@ class Main(object):
                 self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
             if count >= 10:
                 break
-            print(self.gps.altitude())
             if self.gps.altitude() <= self.groundalt + 20:
                 count += 1
         time.sleep(30)
@@ -76,8 +75,6 @@ class Main(object):
                 gpsval = self._gpsdebugvalue.pop(0)
                 self.gps.gpsupdate(debuggpsvalue=gpsval)
             self.gps.goalcalc()
-            print(self.gps.goalazimath())
-            print(fazimath)
             gapazimath = self.gps.goalazimath() - fazimath
             if self.gogpio.first(goaldistance1, self.gps.goaldistance()):
                 self.gogpio.back(10)
