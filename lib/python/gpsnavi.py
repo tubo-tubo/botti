@@ -31,6 +31,7 @@ class gpsparser(object):
                     break
         else:
             readline = debuggpsvalue
+            self.gpsdata = self.NMEAanAlysis(readline)
         logging.info(readline)
         logging.info("gpsupdate")
 
