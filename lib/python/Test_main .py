@@ -40,7 +40,7 @@ class Main(object):
             else:
                 self.gps.gpsupdate(debuggpsvalue=self._gpsdebugvalue.pop(0))
             if count >= 3:
-                break+
+                break
             print(self.gps.altitude())
             if self.gps.altitude() >= self.maxalt:
                 count += 1
