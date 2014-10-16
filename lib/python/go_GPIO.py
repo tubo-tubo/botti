@@ -15,7 +15,11 @@ import logging
 
 class GPIO:  # GPIOをTurtleに
 
+<<<<<<< HEAD
     def __init__(self, leftmotor=[15, 16], rightmotor=[17, 22], goalpos=[], gps=None, ratio=96, rate=0.0164):
+=======
+    def __init__(self, leftmotor=[22, 23], rightmotor=[24, 25], goalpos=[], gps=None, ratio=96.0, rate=0.0164):
+>>>>>>> ff4a4398e5631deefd05ccdcd5f11ccd1724de0d
         gof = go_f.getdistance()
         gof.goal = goalpos
         self.gps = gps
@@ -30,53 +34,60 @@ class GPIO:  # GPIOをTurtleに
         IO.setup(self.rightmotor[1], IO.OUT)
         logging.info("GPIOInit")
 
-    def forward(self,distance):
+    def stop(self):
+        IO.output(self.leftmotor[0], IO.LOW)
+        IO.output(self.leftmotor[1], IO.LOW)
+        IO.output(self.rightmotor[0], IO.LOW)
+        IO.output(self.rightmotor[1], IO.LOW)
+        logging.info("Stop")
+
+    def forward(self, distance):
         start = time.time()
         while True:
-            IO.output(self.leftmotor[0], False)
-            IO.output(self.leftmotor[1], True)
-            IO.output(self.rightmotor[0], False)
-            IO.output(self.rightmotor[1], True)
+            IO.output(self.leftmotor[0], IO.LOW)
+            IO.output(self.leftmotor[1], IO.HIGH)
+            IO.output(self.rightmotor[0], IO.LOW)
+            IO.output(self.rightmotor[1], IO.HIGH)
             if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
         logging.info("Forward")
 
-    def back(self,distance):
+    def back(self, distance):
         start = time.time()
         while True:
-            IO.output(self.leftmotor[0], True)
-            IO.output(self.leftmotor[1], False)
-            IO.output(self.rightmotor[0], True)
-            IO.output(self.rightmotor[1], False)
+            IO.output(self.leftmotor[0], IO.HIGH)
+            IO.output(self.leftmotor[1], IO.LOW)
+            IO.output(self.rightmotor[0], IO.HIGH)
+            IO.output(self.rightmotor[1], IO.LOW)
             if time.time() - start >= math.fabs(distance)/self.rate:
                 break
         time.sleep(0.01)
-        logging.info("back")
+        logging.info("Back")
 
     def left(self, azimath):
         start = time.time()
         while True:
-            IO.output(self.leftmotor[0], True)
-            IO.output(self.leftmotor[1], False)
-            IO.output(self.rightmotor[0], False)
-            IO.output(self.rightmotor[1], True)
+            IO.output(self.leftmotor[0], IO.LOW)
+            IO.output(self.leftmotor[1], IO.HIGH)
+            IO.output(self.rightmotor[0], IO.HIGH)
+            IO.output(self.rightmotor[1], IO.LOW)
             if time.time() - start >= math.fabs(azimath)/self.ratio:
                 break
         time.sleep(0.01)
-        logging.info("left")
+        logging.info("Left")
 
     def right(self, azimath):
         start = time.time()
         while True:
-            IO.output(self.leftmotor[0], False)
-            IO.output(self.leftmotor[1], True)
-            IO.output(self.rightmotor[0], True)
-            IO.output(self.rightmotor[1], False)
+            IO.output(self.leftmotor[0], IO.HIGH)
+            IO.output(self.leftmotor[1], IO.LOW)
+            IO.output(self.rightmotor[0], IO.LOW)
+            IO.output(self.rightmotor[1], IO.HIGH)
             if time.time() - start >= math.fabs(azimath)/self.ratio:
                 break
         time.sleep(0.01)
-        logging.info("right")
+        logging.info("Right")
 
     def stop(self):
         IO.output(self.leftmotor[0], False)
@@ -120,8 +131,12 @@ class GPIO:  # GPIOをTurtleに
             #self.first()
             self.angle()
             self.forward(8)
+<<<<<<< HEAD
             self.stop()
         
+=======
+
+>>>>>>> ff4a4398e5631deefd05ccdcd5f11ccd1724de0d
         if 10 > self.gps.goaldistance() > 3:
             #self.first()
             self.angle()
